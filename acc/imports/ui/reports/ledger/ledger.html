@@ -1,0 +1,209 @@
+<template name="acc_ledgerReport">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_ledgerReport"  action="ledgerReportGen" target="_blank"}}
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{> afQuickField name='branchId'}}
+                        {{> afQuickField name='currencyId'}}
+                        {{> afQuickField name='date'}}
+                        {{> afQuickField name='exchangeDate'}}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{> afQuickField name='accountType' size=10}}
+                        {{> afQuickField name='chartAccount'}}
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+
+<!--Generate-->
+<template name="acc_ledgerReportGen">
+
+    <!--Is ready-->
+    {{#if data}}
+        {{#ReportContent options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Ledger Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content table-striped" border="1">
+                    <thead class="report-content-header">
+                    <tr>
+                        <th width="40px">No</th>
+                        <th>Date</th>
+                        <th>Invoice</th>
+                        <th>Memo</th>
+                        <th>Split Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <!--<th>Amount</th>-->
+                        <th>Balance</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+                    {{#each content}}
+                        {{#if isHeader}}
+                            <tr style="background-color:#EFFFEF;">
+                                <td colspan="7" align="left">
+                                    <b>{{name}}</b>
+                                </td>
+                                <td align="right">
+                                    <b>{{getCurrency currencyId}}{{formatMoneyNormal balance}}</b>
+                                </td>
+                            </tr>
+                        {{else}}
+                            {{#if isFooter}}
+                                <tr style="background-color:#EFFFEF;">
+                                    <td colspan="5" align="left">
+                                        <b>{{name}}</b>
+                                    </td>
+                                    <td align="right">
+                                        <b>{{getCurrency currencyId}}{{formatMoneyNormal dr}}</b>
+                                    </td>
+                                    <td align="right">
+                                        <b>{{getCurrency currencyId}}{{formatMoneyNormal cr}}</b>
+                                    </td>
+                                    <!--<td align="right">
+                                        <b>{{getCurrency currencyId}}{{formatMoneyNormal drcr}}</b>
+                                    </td>-->
+                                    <td align="right">
+                                        <b>{{getCurrency currencyId}}{{formatMoneyNormal balance}}</b>
+                                    </td>
+                                </tr>
+                            {{else}}
+
+                                <tr>
+                                    <td align="center">
+                                        {{order}}
+                                    </td>
+                                    <td>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;{{formatDate journalDate}}
+                                    </td>
+                                    <td align="center" class="voucher-id">
+                                        {{voucherId}}
+                                    </td>
+                                    <td align="left">
+                                        {{memo}}
+                                    </td>
+                                    <td align="left">
+                                        <span class="split-account-detail" style="cursor: pointer">{{name}}</span>
+                                    </td>
+                                    <td align="right">
+                                        {{getCurrency currencyId}}{{formatMoneyNormal dr}}
+                                    </td>
+                                    <td align="right">
+                                        {{getCurrency currencyId}}{{formatMoneyNormal cr}}
+                                    </td>
+                                    <!-- <td align="right">
+                                        {{getCurrency currencyId}}{{formatMoneyNormal drcr}}
+                                    </td>-->
+                                    <td align="right">
+                                        {{getCurrency currencyId}}{{formatMoneyNormal balance}}
+                                    </td>
+                                </tr>
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}
+                    <tr style="background-color:gray;">
+                        <td colspan="5" align="left">
+                            <b>Total</b>
+                        </td>
+                        <td align="right">
+                            <b>{{getCurrency content.currencyId}}{{formatMoneyNormal endingDr}}</b>
+                        </td>
+                        <td align="right">
+                            <b>{{getCurrency content.currencyId}}{{formatMoneyNormal endingCr}}</b>
+                        </td>
+                        <!--<td align="right">
+                            <b>{{getCurrency content.currencyId}}{{formatMoneyNormal endingAmount}}</b>
+                        </td>-->
+                        <td align="right">
+                            <b>{{getCurrency content.currencyId}}{{formatMoneyNormal endingBalance}}</b>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+        {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+
+
+</template>
+
+
+<template name="acc_LedgerShow">
+    <div class="box-body">
+        <table>
+            <tr>
+                <td width="200px"><b> Currency</b></td>
+                <td>{{currencyId}}</td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Account</th>
+                <th>Debit</th>
+                <th>Credit</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {{#each transaction}}
+                <tr>
+                    <td>{{accountDoc.code}} | {{accountDoc.name}}</td>
+                    <td>{{formatMoneyNormal dr}}</td>
+                    <td>{{formatMoneyNormal cr}}</td>
+                </tr>
+            {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+</template>

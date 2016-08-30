@@ -1,0 +1,111 @@
+<template name="acc_trialBalanceReport">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_trialBalanceReport" action="trialBalanceReportGen" target="_blank"}}
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{> afQuickField name='branchId'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='currencyId'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='date'}}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{> afQuickField name='exchangeDate'}}
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+
+<!--Generate-->
+<template name="acc_trialBalanceReportGen">
+    {{#if data}}
+        {{#ReportContent options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Trial Balance Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content" border="1">
+                    <thead class="report-content-header">
+                    <tr>
+                        <th width="40px">No</th>
+                        <th>Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+                    {{#each result}}
+                        <tr>
+                            <td align="center">
+                                {{order}}
+                            </td>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;{{code}}:{{name}}
+                            </td>
+                            <td align="right">
+                                {{#if isNegative result}} {{else}}{{getCurrency currency}}{{formatMoney result}}{{/if}}
+                            </td>
+                            <td align="right">
+                                {{#if isNegative result}} {{getCurrency currency}}{{formatMoneyABS result}}{{else}}{{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                    <tr>
+
+                        <td align="right" colspan="2"><b>Total </b></td>
+                        <td align="right"><b>{{getCurrency currencySelect}}{{formatMoney grandTotalDr}}  </b></td>
+                        <td align="right"><b>{{getCurrency currencySelect}}{{formatMoney grandTotalCr}}  </b></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+        {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+
+
+</template>

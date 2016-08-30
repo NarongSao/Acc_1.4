@@ -1,0 +1,231 @@
+<template name="Acc_sidebarMenu">
+    <li class="{{isActiveRoute name='acc.home'}}">
+        <a href="{{pathFor 'acc.home'}}">
+            <i class="fa fa-home"></i> <span>{{_ "acc.sidebarMenu.home"}}</span>
+        </a>
+    </li>
+
+    <!--Data-->
+    {{#if isInRole 'data-insert,data-update,data-remove' 'Acc'}}
+        <li class="treeview {{isActiveRoute name='acc.journal'}}">
+            <a href="{{pathFor 'acc.journal'}}">
+                <i class="fa fa-plus"></i>
+                <span>{{_ "acc.sidebarMenu.journal"}}</span>
+            </a>
+        </li>
+
+    {{/if}}
+
+
+    {{#if isInRole 'data-insert,data-update,data-remove' 'Acc'}}
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-eye-slash"></i>
+                <span>Data</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li class="{{isActiveRoute name='acc.journalReport'}}">
+                    <a href="{{pathFor 'acc.journalReport'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.journalReport"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.ledgerReport'}}">
+                    <a href="{{pathFor 'acc.ledgerReport'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.ledgerReport"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.trialBalanceReport'}}">
+                    <a href="{{pathFor 'acc.trialBalanceReport'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.trialBalanceReport"}}</span>
+                    </a>
+                </li>
+
+                <li class="{{isActiveRoute name='acc.fixAssetDep'}}">
+                    <a href="{{pathFor 'acc.fixAssetDep'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.fixAssetDep"}}</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+    {{/if}}
+
+
+    <!--Report-->
+    {{#if isInRole 'reporter' 'Acc'}}
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-file-pdf-o"></i>
+                <span>REPORT</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li class="{{isActiveRoute name='acc.ProfitLostReport'}}">
+                    <a href="{{pathFor 'acc.ProfitLostReport'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.profitLostReport"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.balanceSheetReport'}}">
+                    <a href="{{pathFor 'acc.balanceSheetReport'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.balanceSheetReport"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.IncomeAndExpenditureReport'}}">
+                    <a href="{{pathFor 'acc.IncomeAndExpenditureReport'}}">
+                        <i class="fa fa-angle-right"></i>
+                        <span>{{_ "acc.sidebarMenu.incomeAndExpenditureReport"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.BalanceSheetNBCReport'}}">
+                    <a href="{{pathFor 'acc.BalanceSheetNBCReport'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.balanceSheetNBCReport"}}</span>
+                    </a>
+                </li>
+
+                <li class="{{isActiveRoute name='acc.IncomeAndExpenditureKhReport'}}">
+                    <a href="{{pathFor 'acc.IncomeAndExpenditureKhReport'}}">
+                        <i class="fa fa-angle-right"></i>
+                        <span>{{_ "acc.sidebarMenu.incomeAndExpenditureReport"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.BalanceSheetNbcKhReport'}}">
+                    <a href="{{pathFor 'acc.BalanceSheetNbcKhReport'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.balanceSheetNBCReport"}}</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+    {{/if}}
+    <!--Settings-->
+    {{#if isInRole 'setting' 'Acc'}}
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-fire fa-spin fa-fw"></i>
+                <span>Monthly Process</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li class="{{isActiveRoute name='core.exchange'}}">
+                    <a href="{{pathFor 'core.exchange'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "core.sidebarMenu.exchange"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.currencyClosingReport'}}">
+                    <a href="{{pathFor 'acc.currencyClosingReport'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.currencyClosingReport"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.fixAssetExpense'}}">
+                    <a href="{{pathFor 'acc.fixAssetExpense'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.fixAssetExpense"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.endOfProcess'}}">
+                    <a href="{{pathFor 'acc.endOfProcess'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.endOfProcess"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.exchangeNBC'}}">
+                    <a href="{{pathFor 'acc.exchangeNBC'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.exchangeNBC"}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    {{/if}}
+    <!--Settings-->
+    {{#if isInRole 'setting' 'Acc'}}
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-cog fa-spin fa-fw"></i>
+                <span>SETTING</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li class="{{isActiveRoute name='acc.chartAccount'}}">
+                    <a href="{{pathFor 'acc.chartAccount'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.chartAccount"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.configDep'}}">
+                    <a href="{{pathFor 'acc.configDep'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.configDep"}}</span>
+                    </a>
+                </li>
+
+
+            </ul>
+        </li>
+    {{/if}}
+
+
+    <!--Mapping-->
+    {{#if isInRole 'setting' 'Acc'}}
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-map fa-spin fa-fw"></i>
+                <span>Mapping</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li class="{{isActiveRoute name='acc.mapFixAsset'}}">
+                    <a href="{{pathFor 'acc.mapFixAsset'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.mapFixAsset"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.mapClosing'}}">
+                    <a href="{{pathFor 'acc.mapClosing'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.mapClosing"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.mapNBCBalance'}}">
+                    <a href="{{pathFor 'acc.mapNBCBalance'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.mapNBCBalance"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.mapNBCIncome'}}">
+                    <a href="{{pathFor 'acc.mapNBCIncome'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.mapNBCIncome"}}</span>
+                    </a>
+                </li>
+                <!--kH-->
+                <li class="{{isActiveRoute name='acc.mapNBCBalanceKH'}}">
+                    <a href="{{pathFor 'acc.mapNBCBalanceKH'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.mapNBCBalance"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.mapNBCIncomeKH'}}">
+                    <a href="{{pathFor 'acc.mapNBCIncomeKH'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.mapNBCIncome"}}</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+    {{/if}}
+
+    <!--Chart-->
+    {{#if isInRole 'setting' 'Acc'}}
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-bar-chart"></i>
+                <span>Chart</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li class="{{isActiveRoute name='acc.chartNetIncome'}}">
+                    <a href="{{pathFor 'acc.chartNetIncome'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.chartNetIncome"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.chartProfitLostComparation'}}">
+                    <a href="{{pathFor 'acc.chartProfitLostComparation'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.chartProfitLostComparation"}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    {{/if}}
+</template>

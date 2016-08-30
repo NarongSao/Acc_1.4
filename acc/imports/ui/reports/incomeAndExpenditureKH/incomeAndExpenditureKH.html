@@ -1,0 +1,439 @@
+<template name="acc_IncomeAndExpenditureKh">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_IncomeAndExpenditureKh" action="IncomeAndExpenditureKhReportGen" target="_blank"}}
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{> afQuickField name='branchId'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='exchangeDate'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='date'}}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+<template name="acc_IncomeAndExpenditureKhReportGen">
+    <!--Is ready-->
+    {{#if data}}
+        {{#ReportContent options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>INCOME AND EXPENDITURE ACCOUNT</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="report-content-header">
+                    <tr>
+                        <th rowspan="2"></th>
+                        <th colspan="3">ត្រីមាស</th>
+                        <th rowspan="2">ក្នុងឆ្នាំជារៀល</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 15%">រៀល</th>
+                        <th style="width: 15%">រូបិយប័ណ្ណផ្សេងៗជារៀល</th>
+                        <th style="width: 15%">សរុបជារៀល</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>១- ចំណូលពីការប្រាក់</td>
+                        <td>{{formatMoneyNormal interestIncome}}</td>
+                        <td>{{formatMoneyNormal interestIncomeOther}}</td>
+                        <td>{{formatMoneyNormal interestIncomeTotal}}</td>
+                        <td>{{formatMoneyNormal interestIncomeToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ១.១- ប្រតិបត្តិការជាមួយគ្រឹះស្ថានហិរញ្ញវត្ថុផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal accountWithBank}}</td>
+                        <td>{{formatMoneyNormal accountWithBankOther}}</td>
+                        <td>{{formatMoneyNormal accountWithBankTotal}}</td>
+                        <td>{{formatMoneyNormal accountWithBankToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ១.២- ប្រតិបត្តិការជាមួយអតិថិជន</td>
+                        <td>{{formatMoneyNormal loanAndAdvancesToCustomer}}</td>
+                        <td>{{formatMoneyNormal loanAndAdvancesToCustomerOther}}</td>
+                        <td>{{formatMoneyNormal loanAndAdvancesToCustomerTotal}}</td>
+                        <td>{{formatMoneyNormal loanAndAdvancesToCustomerToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ១.៣- ចំណូលការប្រាក់ផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal incomeOther}}</td>
+                        <td>{{formatMoneyNormal incomeOtherOther}}</td>
+                        <td>{{formatMoneyNormal incomeOtherTotal}}</td>
+                        <td>{{formatMoneyNormal incomeOtherToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>២ ចំណាយការប្រាក់</td>
+                        <td>{{formatMoneyNormal interestExpensesAndSimilarCharge}}</td>
+                        <td>{{formatMoneyNormal interestExpensesAndSimilarChargeOther}}</td>
+                        <td>{{formatMoneyNormal interestExpensesAndSimilarChargeTotal}}</td>
+                        <td>{{formatMoneyNormal interestExpensesAndSimilarChargeToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ២.១- ខ្ចីពីគ្រឹះស្ថានហិរញ្ញវត្ថុនានា</td>
+                        <td>{{formatMoneyNormal amountOwingtoBankAndOtherFin}}</td>
+                        <td>{{formatMoneyNormal amountOwingtoBankAndOtherFinOther}}</td>
+                        <td>{{formatMoneyNormal amountOwingtoBankAndOtherFinTotal}}</td>
+                        <td>{{formatMoneyNormal amountOwingtoBankAndOtherFinToDate}}</td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ២.២- ប្រាក់បញ្ញើអតិថិជន</td>
+                        <td>{{formatMoneyNormal customerDesposits}}</td>
+                        <td>{{formatMoneyNormal customerDespositsOther}}</td>
+                        <td>{{formatMoneyNormal customerDespositsTotal}}</td>
+                        <td>{{formatMoneyNormal customerDespositsToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ២.៣- ចំណាយការប្រាក់ផ្សេងទៀត</td>
+                        <td>{{formatMoneyNormal expenseOther}}</td>
+                        <td>{{formatMoneyNormal expenseOtherOther}}</td>
+                        <td>{{formatMoneyNormal expenseOtherTotal}}</td>
+                        <td>{{formatMoneyNormal expenseOtherToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>៣ ចំណូលការប្រាក់សុទ្ធ (៣=១-២)</td>
+                        <td>{{formatMoneyNormal netInterestIncome}}</td>
+                        <td>{{formatMoneyNormal netInterestIncomeOther}}</td>
+                        <td>{{formatMoneyNormal netInterestIncomeTotal}}</td>
+                        <td>{{formatMoneyNormal netInterestIncomeToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>៤ ចំណូលមិនមែនការប្រាក់ (សុទ្ធ)</td>
+                        <td>{{formatMoneyNormal nonInterestIncomeNet}}</td>
+                        <td>{{formatMoneyNormal nonInterestIncomeNetOther}}</td>
+                        <td>{{formatMoneyNormal nonInterestIncomeNetTotal}}</td>
+                        <td>{{formatMoneyNormal nonInterestIncomeNetToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៤.១- ជើងសារនិងកម្រៃ (សុទ្ធ)</td>
+                        <td>{{formatMoneyNormal netCommission}}</td>
+                        <td>{{formatMoneyNormal netCommissionOther}}</td>
+                        <td>{{formatMoneyNormal netCommissionTotal}}</td>
+                        <td>{{formatMoneyNormal netCommissionToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp; &nbsp; &nbsp; ៤.១.១- ចំណូលដែលទទួលបាន</td>
+                        <td>{{formatMoneyNormal nonInterestIncome}}</td>
+                        <td>{{formatMoneyNormal nonInterestIncomeOther}}</td>
+                        <td>{{formatMoneyNormal nonInterestIncomeTotal}}</td>
+                        <td>{{formatMoneyNormal nonInterestIncomeToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp; &nbsp; &nbsp; ៤.១.២- ចំណាយដែលកើតឡើង</td>
+                        <td>{{formatMoneyNormal nonInterestExpense}}</td>
+                        <td>{{formatMoneyNormal nonInterestExpenseOther}}</td>
+                        <td>{{formatMoneyNormal nonInterestExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal nonInterestExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៤.២ ចំណេញ (ខាត) ពីការប្តូរប្រាក់</td>
+                        <td>{{formatMoneyNormal foreignExchangeGainNet}}</td>
+                        <td>{{formatMoneyNormal foreignExchangeGainNetOther}}</td>
+                        <td>{{formatMoneyNormal foreignExchangeGainNetTotal}}</td>
+                        <td>{{formatMoneyNormal foreignExchangeGainNetToDate}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp; ៤.៣ ចំណូលមិនមែនការប្រាក់ផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal otherIncome}}</td>
+                        <td>{{formatMoneyNormal otherIncomeOther}}</td>
+                        <td>{{formatMoneyNormal otherIncomeTotal}}</td>
+                        <td>{{formatMoneyNormal otherIncomeToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>៥ ចំណូលប្រតិបត្តិការសរុប(៥=៣+៤)</td>
+                        <td>{{formatMoneyNormal operatingIncome}}</td>
+                        <td>{{formatMoneyNormal operatingIncomeOther}}</td>
+                        <td>{{formatMoneyNormal operatingIncomeTotal}}</td>
+                        <td>{{formatMoneyNormal operatingIncomeToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>៦ ចំណាយប្រតិបត្តិការ</td>
+                        <td>{{formatMoneyNormal generalAndAdministrativeExpense}}</td>
+                        <td>{{formatMoneyNormal generalAndAdministrativeExpenseOther}}</td>
+                        <td>{{formatMoneyNormal generalAndAdministrativeExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal generalAndAdministrativeExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.១ បៀវត្សនិងឧបត្ថម្ភ</td>
+                        <td>{{formatMoneyNormal salaryExpense}}</td>
+                        <td>{{formatMoneyNormal salaryExpenseOther}}</td>
+                        <td>{{formatMoneyNormal salaryExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal salaryExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.២ ចំណាយផ្សេងទៀតលើបុគ្គលិក</td>
+                        <td>{{formatMoneyNormal personalExpense}}</td>
+                        <td>{{formatMoneyNormal personalExpenseOther}}</td>
+                        <td>{{formatMoneyNormal personalExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal personalExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.៣ ចំណាលជួល</td>
+                        <td>{{formatMoneyNormal rentExpense}}</td>
+                        <td>{{formatMoneyNormal rentExpenseOther}}</td>
+                        <td>{{formatMoneyNormal rentExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal rentExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.៤ ចំណាយលើអការ</td>
+                        <td>{{formatMoneyNormal buildingExpense}}</td>
+                        <td>{{formatMoneyNormal buildingExpenseOther}}</td>
+                        <td>{{formatMoneyNormal buildingExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal buildingExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.៥ ចំណាយលើទព្វសំភារៈ</td>
+                        <td>{{formatMoneyNormal materialExpense}}</td>
+                        <td>{{formatMoneyNormal materialExpenseOther}}</td>
+                        <td>{{formatMoneyNormal materialExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal materialExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.៦ ចំណាយរដ្ជបាល</td>
+                        <td>{{formatMoneyNormal officedExpense}}</td>
+                        <td>{{formatMoneyNormal officedExpenseOther}}</td>
+                        <td>{{formatMoneyNormal officedExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal officedExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.៧ ចំណាយរំលស់</td>
+                        <td>{{formatMoneyNormal depreExpense}}</td>
+                        <td>{{formatMoneyNormal depreExpenseOther}}</td>
+                        <td>{{formatMoneyNormal depreExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal depreExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.៨ កាតព្វកិច្ច, អាជ្ញាប័ណ្ណ និងរងពិន័យ</td>
+                        <td>{{formatMoneyNormal occupancyExpense}}</td>
+                        <td>{{formatMoneyNormal occupancyExpenseOther}}</td>
+                        <td>{{formatMoneyNormal occupancyExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal occupancyExpenseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp; &nbsp; &nbsp; ៦.៨.១ ក្នុងនោះជាមួយធនាគារជាតិ</td>
+                        <td>{{formatMoneyNormal occupancyWithBank}}</td>
+                        <td>{{formatMoneyNormal occupancyWithBankOther}}</td>
+                        <td>{{formatMoneyNormal occupancyWithBankTotal}}</td>
+                        <td>{{formatMoneyNormal occupancyWithBankToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.៩ ចំណាយផ្សេងទៀតលើប្រតិបត្តិការ</td>
+                        <td>{{formatMoneyNormal otherExpense}}</td>
+                        <td>{{formatMoneyNormal otherExpenseOther}}</td>
+                        <td>{{formatMoneyNormal otherExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal otherExpenseToDate}}</td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>៧- ចំណូលប្រតិបត្តិការសុទ្ធ(ខាត) (៧=៥-៦)</td>
+                        <td>{{formatMoneyNormal netIncome}}</td>
+                        <td>{{formatMoneyNormal netIncomeOther}}</td>
+                        <td>{{formatMoneyNormal netIncomeTotal}}</td>
+                        <td>{{formatMoneyNormal netIncomeToDate}}</td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>៨- សំវិធានធនលើឥណទានខាតបង់ (បានមកវិញ)</td>
+                        <td>{{formatMoneyNormal reverse}}</td>
+                        <td>{{formatMoneyNormal reverseOther}}</td>
+                        <td>{{formatMoneyNormal reverseTotal}}</td>
+                        <td>{{formatMoneyNormal reverseToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.១- សំវិធានធនលើឥណទានខាតបង់</td>
+                        <td>{{formatMoneyNormal reverseOnLoss}}</td>
+                        <td>{{formatMoneyNormal reverseOnLossOther}}</td>
+                        <td>{{formatMoneyNormal reverseOnLossTotal}}</td>
+                        <td>{{formatMoneyNormal reverseOnLossToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.២- (ទារបានមកវិញ)</td>
+                        <td>{{formatMoneyNormal return}}</td>
+                        <td>{{formatMoneyNormal returnOther}}</td>
+                        <td>{{formatMoneyNormal returnTotal}}</td>
+                        <td>{{formatMoneyNormal returnToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.៣ ផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal other}}</td>
+                        <td>{{formatMoneyNormal otherOther}}</td>
+                        <td>{{formatMoneyNormal otherTotal}}</td>
+                        <td>{{formatMoneyNormal otherToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>៩ ជំពូកពិសេសផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal specailChapter}}</td>
+                        <td>{{formatMoneyNormal specailChapterOther}}</td>
+                        <td>{{formatMoneyNormal specailChapterTotal}}</td>
+                        <td>{{formatMoneyNormal specailChapterToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;៩.១ ចំណូលពិសេស</td>
+                        <td>{{formatMoneyNormal specialIncome}}</td>
+                        <td>{{formatMoneyNormal specialIncomeOther}}</td>
+                        <td>{{formatMoneyNormal specialIncomeTotal}}</td>
+                        <td>{{formatMoneyNormal specialIncomeToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp; &nbsp; &nbsp; ៩.១.១ ដែលក្នុងនោះជាអំណោយ</td>
+                        <td>{{formatMoneyNormal specialIncomeGift}}</td>
+                        <td>{{formatMoneyNormal specialIncomeGiftOther}}</td>
+                        <td>{{formatMoneyNormal specialIncomeGiftTotal}}</td>
+                        <td>{{formatMoneyNormal specialIncomeGiftToDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;៩.២ (ចំណាយពិសេស)</td>
+                        <td>{{formatMoneyNormal specialExpense}}</td>
+                        <td>{{formatMoneyNormal specialExpenseOther}}</td>
+                        <td>{{formatMoneyNormal specialExpenseTotal}}</td>
+                        <td>{{formatMoneyNormal specialExpenseToDate}}</td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>១០ ចំណេញមុនបង់ពន្ធ (១០=៧-៨+៩)</td>
+                        <td>{{formatMoneyNormal profitBeforeTaxes}}</td>
+                        <td>{{formatMoneyNormal profitBeforeTaxesOther}}</td>
+                        <td>{{formatMoneyNormal profitBeforeTaxesTotal}}</td>
+                        <td>{{formatMoneyNormal profitBeforeTaxesToDate}}</td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>១១ ពន្ធលើប្រាក់ចំណេញ</td>
+                        <td>{{formatMoneyNormal taxOnProfit}}</td>
+                        <td>{{formatMoneyNormal taxOnProfitOther}}</td>
+                        <td>{{formatMoneyNormal taxOnProfitTotal}}</td>
+                        <td>{{formatMoneyNormal taxOnProfitToDate}}</td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>១២ ចំណេញសុទ្ធក្នុងគ្រា (១២=១០-១១)</td>
+                        <td>{{formatMoneyNormal netProfitForPeriod}}</td>
+                        <td>{{formatMoneyNormal netProfitForPeriodOther}}</td>
+                        <td>{{formatMoneyNormal netProfitForPeriodTotal}}</td>
+                        <td>{{formatMoneyNormal netProfitForPeriodToDate}}</td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>១៣ ទូទាត់ភាគលាភ</td>
+                        <td>{{formatMoneyNormal dividendPayments}}</td>
+                        <td>{{formatMoneyNormal dividendPaymentsOther}}</td>
+                        <td>{{formatMoneyNormal dividendPaymentsTotal}}</td>
+                        <td>{{formatMoneyNormal dividendPaymentsToDate}}</td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>១៤ ផ្ទេរទៅចំណេញរក្សាទុក(ខាត)</td>
+                        <td>{{formatMoneyNormal netProfitAvailableAfterDividend}}</td>
+                        <td>{{formatMoneyNormal netProfitAvailableAfterDividendOther}}</td>
+                        <td>{{formatMoneyNormal netProfitAvailableAfterDividendTotal}}</td>
+                        <td>{{formatMoneyNormal netProfitAvailableAfterDividendToDate}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+            {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+
+</template>
+

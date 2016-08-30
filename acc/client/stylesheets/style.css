@@ -1,0 +1,19 @@
+#format-header{
+  height: 30px;
+  color: white;
+  background-color: #337ab7;
+}
+#scroll-horizontal{
+  overflow-y: auto;
+  height:423px;
+  padding-top: 5px;
+}
+#height-field{
+  height: 30px;
+}
+#height-top-header{
+  height: 10px;
+}
+.item{
+  text-align:right;
+}

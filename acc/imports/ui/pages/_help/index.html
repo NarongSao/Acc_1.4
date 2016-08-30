@@ -1,0 +1,94 @@
+<template name="acc_help">
+    <!--Content-->
+    <div class="row MainContent">
+
+        <!--Main Content -->
+        <div class="col-xs-9">
+            <section id="welcome" class="group scrollto">
+                {{> acc_welcomeHelp}}
+            </section>
+            <section id="login" class="group scrollto">
+                {{> acc_loginHelp}}
+            </section>
+            <section id="home" class="group scrollto">
+                {{> acc_homeHelp}}
+            </section>
+            <section id="setting" class="group scrollto">
+                {{> acc_settingHelp}}
+            </section>
+            <section id="journal" class="group scrollto">
+                {{> acc_journalEntryHelp}}
+            </section>
+            <section id="accountant" class="group scrollto">
+                {{> acc_accountantHelp}}
+            </section>
+            <section id="report" class="group scrollto">
+                {{> acc_reportHelp}}
+            </section>
+            <section id="tool" class="group scrollto">
+                {{> acc_toolHelp}}
+            </section>
+        </div>
+
+
+        <!--Side Nav Bar -->
+        <nav class="col-xs-3 bs-docs-sidebar header-scroll" style="position: relative !important;">
+            <ul id="sidebar" class="nav nav-stacked fixed">
+                <li>
+                    <a href="#welcome">Welcome</a>
+                </li>
+                <li>
+                    <a href="#login">Login</a>
+                </li>
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+                <li>
+                    <a href="#setting">Setting</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#setting1">Chart Account</a></li>
+                        <li><a href="#setting2">Exchange</a></li>
+                        <li><a href="#setting3">Exchange NBC</a></li>
+                        <li><a href="#setting4">End Of Process</a></li>
+                        <li><a href="#setting5">Config Closing</a></li>
+                        <li><a href="#setting6">Map Chart Account</a></li>
+
+                        <li><a href="#setting6Sub1">&nbsp;&nbsp;&nbsp; Income and Expenditure</a></li>
+                        <li><a href="#setting6Sub2">&nbsp;&nbsp;&nbsp; Balance Sheet</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="#journal">Journal Entries</a>
+                </li>
+                <li>
+                    <a href="#accountant">Accountant</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#accountant1">Journal</a></li>
+                        <li><a href="#accountant2">General Ledger</a></li>
+                        <li><a href="#accountant3">Trial Balance</a></li>
+                        <li><a href="#accountant4">Currency Closing</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#report">Reports</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#report1">Profit & Lost</a></li>
+                        <li><a href="#report2">Balance Sheet</a></li>
+                        <li><a href="#report3">NBC</a></li>
+
+                        <li><a href="#report3Sub1">&nbsp;&nbsp;&nbsp;Income and Expenditure</a></li>
+                        <li><a href="#report3Sub2">&nbsp;&nbsp;&nbsp;Balance Sheet</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="#tool">Tool</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#tool1"> Backup and Restore</a></li>
+                        <li><a href="#tool2"> View Help</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</template>

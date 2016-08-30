@@ -1,0 +1,595 @@
+<template name="acc_balanceSheetReport" xmlns="http://www.w3.org/1999/html">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_balanceSheetReport" action="balanceSheet-report-gen" target="_blank"}}
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{> afQuickField name='branchId'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='currencyId'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='date'}}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{> afQuickField name='exchangeDate'}}
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+        {{/autoForm}}
+    </div>
+
+</template>
+
+
+<!--Generate-->
+<template name="acc_balanceSheetForAllReportGen">
+
+    <!--Is ready-->
+    {{#if dataMain}}
+        {{#ReportContent options}}
+            {{#with dataMain}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Balance Sheet Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <tbody class="report-content-body">
+                    <tr>
+                        <td align="center"><b>Account</b></td>
+                        <td align="center"><b>KHR</b></td>
+                        <td align="center"><b>USD</b></td>
+                        <td align="center"><b>THB</b></td>
+                        <td align="center"><b>Total {{currencySelect}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Asset</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Current Asset</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Other Current Asset</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {{#each otherCurrentAsset}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountRiel}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountRiel}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountUsd}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountUsd}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountThb}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountThb}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Other Current Asset</b>
+                        </td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentAssetRiel}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentAssetUSD}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentAssetBath}}</b></td>
+                        <td style="border-top: medium;" align="right">
+                            <b>{{formatMoneyNormal totalOtherCurrentAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Current Asset</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentAssetRiel}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentAssetUSD}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentAssetBath}}</b></td>
+                        <td style="border-top: medium;" align="right">
+                            <b>{{formatMoneyNormal totalOtherCurrentAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Fix Asset</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {{#each fixAsset}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountRiel}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountRiel}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountUsd}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountUsd}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountThb}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountThb}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Fix Asset</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalFixAssetRiel}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalFixAssetUSD}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalFixAssetBath}}</b></td>
+                        <td style="border-top: medium;" align="right"><b>{{formatMoneyNormal totalFixAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Other Fix Asset</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {{#each otherFixAsset}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountRiel}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountRiel}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountUsd}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountUsd}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountThb}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountThb}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Other Fix Asset</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherFixAssetRiel}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherFixAssetUSD}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherFixAssetBath}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherFixAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Asset</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalAssetRiel}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalAssetUSD}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalAssetBath}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Liability & Equity</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Liability</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Current Liability</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Other
+                            Current Liability</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {{#each otherCurrentLiability}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountRiel}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountRiel}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountUsd}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountUsd}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountThb}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountThb}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total
+                            Other Current Liability</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentLiabilityRiel}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentLiabilityUSD}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentLiabilityBath}}</b></td>
+                        <td style="border-top: medium;" align="right">
+                            <b>{{formatMoneyNormal totalOtherCurrentLiability}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Current Liability</b>
+                        </td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentLiabilityRiel}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentLiabilityUSD}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentLiabilityBath}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentLiability}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Long
+                            Term Liability</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {{#each longTermLiability}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountRiel}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountRiel}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountUsd}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountUsd}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountThb}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountThb}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total
+                            Long Term Liability</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalLongTermLiabilityRiel}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalLongTermLiabilityUSD}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalLongTermLiabilityBath}}</b></td>
+                        <td style="border-top: medium;" align="right">
+                            <b>{{formatMoneyNormal totalLongTermLiability}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Liability</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalLiabilityRiel}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalLiabilityUSD}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalLiabilityBath}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalLiability}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Equity</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {{#each equity}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountRiel}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountRiel}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountUsd}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountUsd}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amountThb}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amountThb}}</u></td>{{/if}}
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+
+                        </tr>
+                    {{/each}}
+
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>NetIncome</b>
+                        </td>
+                        <td align="right"><b>{{formatMoneyNormal profitRiel}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal profitUSD}}</b></td>
+                        <td align="right"><b>{{formatMoneyNormal profitBath}}</b></td>
+                        <td style="border-top: medium;" align="right"><b>{{formatMoneyNormal profit}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Equity</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalEquityRiel}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalEquityUSD}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalEquityBath}}</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalEquity}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Liability & Equity</b></td>
+                        <td style="border-top: medium;;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalLiabilityAndEquityRiel}}</b></td>
+                        <td style="border-top: medium;;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalLiabilityAndEquityUSD}}</b></td>
+                        <td style="border-top: medium;;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalLiabilityAndEquityBath}}</b></td>
+                        <td style="border-top: medium;;text-decoration: overline" align="right">
+                            <b>{{formatMoneyNormal totalLiabilityAndEquity}}</b></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+            {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>
+
+
+<!--Generate-->
+<template name="acc_balanceSheetReportGen">
+
+    <!--Is ready-->
+    {{#if dataMain}}
+        {{#ReportContent options}}
+            {{#with dataMain}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Balance Sheet Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <tbody class="report-content-body">
+                    <tr>
+                        <td><b>Asset</b></td>
+                        <td><b>Total</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Current Asset</b></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Other Current Asset</b></td>
+                        <td></td>
+                    </tr>
+                    {{#each otherCurrentAsset}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Other Current Asset</b>
+                        </td>
+                        <td style="border-top: medium;" align="right">
+                            <b>{{formatMoneyNormal totalOtherCurrentAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Current Asset</b></td>
+                        <td style="border-top: medium;" align="right">
+                            <b>{{formatMoneyNormal totalOtherCurrentAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Fix Asset</b></td>
+                        <td></td>
+                    </tr>
+                    {{#each fixAsset}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Fix Asset</b></td>
+                        <td style="border-top: medium;" align="right"><b>{{formatMoneyNormal totalFixAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Other Fix Asset</b></td>
+                        <td></td>
+                    </tr>
+                    {{#each otherFixAsset}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Other Fix Asset</b></td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherFixAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Asset</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{getCurrency currencySelect}}{{formatMoneyNormal totalAsset}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Liability & Equity</b></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Liability</b></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Current Liability</b></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Other
+                            Current Liability</b></td>
+                        <td></td>
+                    </tr>
+                    {{#each otherCurrentLiability}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total
+                            Other Current Liability</b></td>
+                        <td style="border-top: medium;" align="right">
+                            <b>{{formatMoneyNormal totalOtherCurrentLiability}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Current Liability</b>
+                        </td>
+                        <td align="right"><b>{{formatMoneyNormal totalOtherCurrentLiability}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Long
+                            Term Liability</b></td>
+                        <td></td>
+                    </tr>
+                    {{#each longTermLiability}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total
+                            Long Term Liability</b></td>
+                        <td style="border-top: medium;" align="right">
+                            <b>{{formatMoneyNormal totalLongTermLiability}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Liability</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{getCurrency currencySelect}}{{formatMoneyNormal totalLiability}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Equity</b></td>
+                        <td></td>
+                    </tr>
+                    {{#each equity}}
+                        <tr>
+                            <td>{{{code}}}:{{name}}</td>
+                            {{#if currency}}
+                                <td align="right">{{formatMoneyNormal amount}}</td>{{else}}
+                                <td align="right"><u>{{formatMoneyNormal amount}}</u></td>{{/if}}
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>NetIncome</b>
+                        </td>
+                        <td style="border-top: medium;" align="right"><b>{{formatMoneyNormal profit}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Equity</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{getCurrency currencySelect}}{{formatMoneyNormal totalEquity}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Liability & Equity</b></td>
+                        <td style="border-top: medium;text-decoration: overline" align="right">
+                            <b>{{getCurrency currencySelect}}{{formatMoneyNormal totalLiabilityAndEquity}}</b></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+            {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>

@@ -1,0 +1,30 @@
+<template name="acc_chartNetIncome">
+    <div class="box-body">
+        <div class="row" col-md-12>
+            <div class="box-body">
+                <div class="col-sm-3">
+                    <select name="yearpicker" id="yearpicker" class="input-sm" style="width: 250px"></select>
+                </div>
+                <div class="col-sm-9">
+                    <div class="switch-toggle switch-3 switch-candy" id="currency-toggle">
+                        <input id="khr" value="khr" name="state-d" type="radio" checked="">
+                        <label for="khr" onclick="">KHR</label>
+
+                        <input id="usd" value="usd" name="state-d" type="radio" checked="checked">
+                        <label for="usd" onclick="">USD</label>
+
+                        <input id="baht" value="baht" name="state-d" type="radio">
+                        <label for="baht" onclick="">Baht</label>
+                        <a></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="box-body">
+        <div id="bar-chart-container">
+            <canvas id="myChart" width="900" height="400"></canvas>
+        </div>
+    </div>
+</template>

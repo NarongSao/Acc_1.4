@@ -1,0 +1,152 @@
+<template name="acc_FixAsset" xmlns="http://www.w3.org/1999/html">
+    <div class="animated bounceInDown">
+        {{#autoForm schema=schema id="acc_FixAsset"}}
+            <div class="row" style="padding-left: 1%;">
+                <div class="col-sm-3" style="padding-right:1px;padding-left:0px;">
+                    {{> afQuickField name='account' id='account' class="input-sm" style="width: 100%"}}
+                </div>
+                <div class="col-sm-9" style="padding-right:1px;padding-left:0px;">
+                    <div class="col-sm-3" style="padding-right:1px;padding-left:0px;">
+                        {{> afQuickField name='description' id='description' class="input-sm"}}
+                    </div>
+                    <div class="col-sm-2" style="padding-right:1px;padding-left:0px;">
+                        {{> afQuickField name='code' id='code' class="input-sm"}}
+                    </div>
+                    <div class="col-sm-2" style="padding-right:1px;padding-left:0px;">
+                        {{> afQuickField name='value' id='value' class="input-sm"}}
+                    </div>
+                    <div class="col-sm-1" style="padding-right:1px;padding-left:0px;">
+                        {{> afQuickField name='life' id='life' class="input-sm" }}
+                    </div>
+                    <div class="col-sm-2" style="padding-right:1px;padding-left:0px;">
+                        {{> afQuickField name='estSalvage' id='estSalvage' class="input-sm" }}
+                    </div>
+                    <div class="col-sm-1" style="padding-right:1px;padding-left:0px;">
+                        {{> afQuickField name='percent' id='percent' class="input-sm"}}
+                    </div>
+                    <div class="col-sm-1" style="padding-right:0px;padding-left:0px;margin-top: 5px;">
+                        <br>
+                        <button type="button" class="btn btn-primary addItem input-sm" {{cssClassForAddMoreFixedAsset}}>
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{#each fixAsset}}
+                <div class="row listFixAsset" style="padding-left: 1%">
+                    <div class="col-sm-3" style="padding-right:2px;padding-left:2px;">
+                        <input type="text" value={{account}} style="width: 100%" class="form-control input-sm"
+                        readonly=true>
+                    </div>
+                    <div class="col-sm-9" style="padding-right:1px;padding-left:0px;">
+                        <div class="col-sm-3" style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{description}} style="width: 100%" class="form-control input-sm"
+                            readonly=true>
+                        </div>
+                        <div class="col-sm-2" style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{code}} style="width: 100%" class="form-control input-sm"
+                            readonly=true>
+
+                        </div>
+                        <div class="col-sm-2" style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{formatMoney value}} style="width: 100%" class="form-control
+                            input-sm" readonly=true>
+                        </div>
+                        <div class="col-sm-1" style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{formatMoney life}} style="width: 100%" class="form-control
+                            input-sm" readonly=true>
+                        </div>
+                        <div class="col-sm-2" style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{formatMoney estSalvage}} style="width: 100%" class="form-control
+                            input-sm" readonly=true>
+                        </div>
+                        <div class="col-sm-1" style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{formatPercentage percent}} style="width: 100%"
+                            class="form-control input-sm" readonly=true>
+                        </div>
+                        <div class="col-sm-1" style="padding-right:1px; padding-left:0px;">
+                            <ul class="list-inline input-sm" style="padding-right:0px; padding-left:0px;">
+                                <li><a href="#" class="js-update-item input-sm"
+                                       style="padding-right:0px; padding-left:1px;"><i class="fa fa-pencil"></i></a>
+                                </li>
+                                <li><a href="#" class="js-destroy-item input-sm"
+                                       style="padding-right:0px; padding-left:0px;"><i
+                                        class="fa fa-remove text-red"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/autoForm}}
+        <hr>
+    </div>
+</template>
+
+
+<template name="acc_FixAssetUpdate">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_FixAssetUpdate" doc=this}}
+            <div class="form-horizontal">
+                <fieldset>
+                    <div>
+                        <label class="control-label col-sm-3" for="email">Account:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="account" label=false}}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="control-label col-sm-3" for="pwd">Description:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="description"  label=false}}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="control-label col-sm-3" for="pwd">Code:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="code" label=false}}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="control-label col-sm-3" for="pwd">Value:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="value"  label=false}}
+
+                        </div>
+                    </div>
+                    <div>
+                        <label class="control-label col-sm-3" for="pwd">Life:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="life" label=false}}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="control-label col-sm-3" for="pwd" style="padding-left: 0px">Est Salvage:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="estSalvage"  label=false}}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="control-label col-sm-3" for="pwd">Percent:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="percent" label=false}}
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-sm-offset-9">
+                        <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+                    </div>
+                </fieldset>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+<template name="acc_actionFixAsset">
+    <ul class="list-inline input-sm" style="padding-right:0px; padding-left:0px;">
+        <li><a href="#" class="js-update-item input-sm" style="padding-right:0px; padding-left:1px;"><i
+                class="fa fa-pencil"></i></a></li>
+        <li><a href="#" class="js-destroy-item input-sm" style="padding-right:0px; padding-left:0px;"><i
+                class="fa fa-remove text-red"></i></a></li>
+    </ul>
+</template>

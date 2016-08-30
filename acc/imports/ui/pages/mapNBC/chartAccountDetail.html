@@ -1,0 +1,25 @@
+<template name="acc_chartAccountDetail">
+        {{#autoForm schema=schema id="acc_chartAccountDetail"}}
+            <div class="row">
+                <div class="col-sm-11" style="padding-right:1px;padding-left:0px;">
+                    {{> afQuickField name="chartAccount"}}
+                </div>
+                <div class="col-sm-1" style="padding-right:0px;padding-left:0px;margin-top: 5px;">
+                    <br>
+                    <button type="button" class="btn btn-primary addItem" {{cssClassForAddMore}}>+</button>
+                </div>
+            </div>
+            <hr>
+            {{#each detail}}
+                <div class="row col-sm-11">
+                    <input type="text" value={{chartAccount}} style='padding-bottom: 1px; width="100%" ;'
+                    class="form-control input-sm" readonly=true>
+                </div>
+                <div class="col-sm-1" style="padding-right:1px;padding-left:0px;padding-bottom: 1px">
+                    <button type="button" class="btn btn-danger removeItem input-sm">-</button>
+                </div>
+            {{/each}}
+            <hr>
+            <br><br>
+        {{/autoForm}}
+</template>

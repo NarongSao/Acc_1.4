@@ -1,0 +1,210 @@
+<!--Index-->
+<template name="acc_journal">
+    <div class="animated fadeIn">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+
+                <p style="margin-bottom: 10px">
+                    <!--<a href="{{pathFor 'acc.journalInsert'}}" type="button" class="btn btn-primary insert">{{fa "plus"}} Add
+                New</a>-->
+                    <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add
+                        New
+                    </button>
+                   <!-- <button type="button" class="btn btn-primary otherSystem_journalInsert">{{fa "plus"}} Add New Other
+                    </button>-->
+                </p>
+            </h3>
+        </div>
+        <div class="box-body">
+            {{> tabular table=tabularTable selector=selector class="table table-striped table-bordered table-condensed table-hover"}}
+        </div>
+
+    </div>
+</template>
+
+<!--Action-->
+<template name="acc_journalAction">
+    {{#columnAction align="left"}}
+        <!--<li><a href="{{pathFor 'acc.journalUpdate' id=this._id}}" class="update">{{fa "pencil"}} Update</a></li>-->
+        <li><a href="#" class="update">{{fa "pencil"}} Update</a></li>
+        <li><a href="#" class="remove">{{fa "remove"}} Remove</a></li>
+        <li><a href="#" class="show">{{fa "eye"}} Show</a></li>
+
+       <!-- <li><a href="#" class="otherSystem_journalUpdate">{{fa "pencil"}} Update Other</a></li>
+        <li><a href="#" class="otherSystem_journalRemove">{{fa "remove"}} Remove Other</a></li>-->
+    {{/columnAction}}
+</template>
+
+<!--Show-->
+<template name="acc_journalShow">
+    <div class="box-body">
+        <dl class="dl-horizontal">
+            <dt>Id</dt>
+            <dd>{{_id}}</dd>
+            <dt>JournalDate</dt>
+            <dd>{{formatDate journalDate}}</dd>
+            <dt>VoucherId</dt>
+            <dd>{{voucherId}}</dd>
+            <dt>Memo</dt>
+            <dd>{{memo}}</dd>
+            <dt>Transaction</dt>
+            <dd>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each transaction}}
+                        <tr>
+                            <td>{{getChartAccount accountDoc._id}}</td>
+                            <td>{{formatMoney dr}}</td>
+                            <td>{{formatMoney cr}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </dd>
+            <dt>Currency</dt>
+            <dd>{{currencyId}}</dd>
+        </dl>
+    </div>
+</template>
+<template name="acc_journalInsert">
+    <div class="box-body">
+        {{#autoForm collection=collection id="acc_journalInsert" type="insert"}}
+            {{#if isFixAsset}}
+                {{> acc_FixAsset fixAssetDepCollection=fixAssetDepCollection}}
+            {{/if}}
+            <div class="row">
+                <div class="col-md-9">
+                    <!--Journal Temporary-->
+                    {{> acc_journalDetail journalDetailCollection=journalDetailCollection}}
+
+                    <div class="row" style="padding-left: 1%">
+                        <div class="col-sm-5 pull-left" style="padding-right:1px;padding-left:0px;text-align: left;">
+                            <button type="submit" class="btn btn-primary" {{cssClassForSubmit}}>{{fa "floppy-o"}}Save
+                            </button>
+                            <button type="submit"
+                                    class="btn btn-primary save-new" {{cssClassForSubmit}}>{{fa "floppy-o"}}
+                                Save and New
+                            </button>
+                            <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+                        </div>
+                        <div class="col-sm-1" style="padding-right:1px;padding-left:0px;text-align: right;">
+                            <b>Total :</b>
+                        </div>
+                        <div class="col-sm-5" style="padding-right:1px;padding-left:0px;">
+                            <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                                <input type="text" value={{formatMoney totalDr}} style="width: 100%" class="form-control
+                                input-sm" readonly=true>
+                            </div>
+                            <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                                <input type="text" value={{formatMoney totalCr}} style="width: 100%" class="form-control
+                                input-sm" readonly=true>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <div style="height: 20px;">
+                                    <div class="pull-left">
+                                        <input type="checkbox" class="js-switch"/>
+                                        <label>Is Fixed Asset</label>
+                                    </div>
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            {{> afQuickField name='journalDate' id='journalDate' class="input-sm"}}
+                            {{> afQuickField name='currencyId' id='currencyId' class="input-sm"}}
+                            {{> afQuickField name='voucherId' id='voucherId' class="input-sm" value=voucherId }}
+                            {{> afQuickField name='memo' id='memo' class="input-sm"}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        {{/autoForm}}
+    </div>
+</template>
+
+
+<template name="acc_journalUpdate">
+    <div class="box-body">
+        {{#if isSubReady}}
+            {{#autoForm collection=collection id="acc_journalUpdate" doc=this type="update"}}
+                {{#if isFixAsset}}
+                    {{> acc_FixAsset transactionAsset=this.transactionAsset fixAssetDepCollection=fixAssetDepCollection}}
+                {{/if}}
+                <div class="row">
+                    <div class="col-md-9">
+                        <!--Journal Temporary-->
+                        {{> acc_journalDetail transaction=this.transaction journalDetailCollection=journalDetailCollection}}
+                        <div class="row" style="padding-left: 1%">
+                            <div class="col-sm-3 pull-left"
+                                 style="padding-right:1px;padding-left:0px;text-align: left;">
+                                <button type="submit" class="btn btn-primary" {{cssClassForSubmit}}>{{fa "floppy-o"}}
+                                    Save
+                                </button>
+                                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+                            </div>
+                            <div class="col-sm-3" style="padding-right:1px;padding-left:0px;text-align: right;">
+                                <b>Total :</b>
+                            </div>
+                            <div class="col-sm-5" style="padding-right:1px;padding-left:0px;">
+                                <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                                    <input type="text" value={{formatMoney totalDr}} style="width: 100%"
+                                    class="form-control
+                                    input-sm" readonly=true>
+                                </div>
+                                <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                                    <input type="text" value={{formatMoney totalCr}} style="width: 100%"
+                                    class="form-control
+                                    input-sm" readonly=true>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <div style="height: 20px;">
+                                        <div style="height: 20px;">
+                                            <div class="pull-left">
+                                                <input type="checkbox" class="js-switch" {{isChecked}}/>
+                                                <label>Is Fixed Asset</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </h3>
+                            </div>
+
+                            <div class="panel-body">
+                                {{> afQuickField name='journalDate' id='journalDate' class="input-sm"}}
+                                {{> afQuickField name='currencyId' id='currencyId' class="input-sm"}}
+                                {{> afQuickField name='voucherId' id='voucherId' class="input-sm"}}
+                                {{> afQuickField name='memo' id='memo' class="input-sm"}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/autoForm}}
+        {{else}}
+            {{> loading}}
+        {{/if}}
+    </div>
+</template>
+
+
+

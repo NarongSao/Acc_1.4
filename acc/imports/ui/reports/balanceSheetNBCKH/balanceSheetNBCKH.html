@@ -1,0 +1,526 @@
+<template name="acc_BalanceSheetNbcKhReport">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_BalanceSheetNbcKhReport" action="BalanceSheetNbcKhReportGen" target="_blank"}}
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{> afQuickField name='branchId'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='exchangeDate'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='date'}}
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+<template name="acc_BalanceSheetNbcKhReportGen">
+
+    <!--Is ready-->
+    {{#if data}}
+        {{#ReportContent options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>BALANCE SHEET</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="report-content-header">
+                    <tr>
+                        <th>ទ្រព្យសកម្ម</th>
+                        <th style="width: 20%">ជារៀល</th>
+                        <th style="width: 20%">រូបិយប័ណ្ណផ្សេងៗគិតជារៀល</th>
+                        <th style="width: 20%">សរុបជារៀល</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>១ សាច់ប្រាក់និងប្រាក់បញ្ញើនៅធនាគារជាតិនិងធនាគារផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal cashAndBalanceWithNBC}}</td>
+                        <td>{{formatMoneyNormal cashAndBalanceWithNBCOther}}</td>
+                        <td>{{formatMoneyNormal cashAndBalanceWithNBCTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ១-១ សាច់ប្រាក់ក្នុងដៃ (ជារៀលនិងរូបិយប័ណ្ណបរទេស)</td>
+                        <td>{{formatMoneyNormal cashOnHand}}</td>
+                        <td>{{formatMoneyNormal cashOnHandOther}}</td>
+                        <td>{{formatMoneyNormal cashOnHandTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ១-២ ប្រាក់បញ្ចើនៅធនាគារជាតិ</td>
+                        <td>{{formatMoneyNormal balanceNBC}}</td>
+                        <td>{{formatMoneyNormal balanceNBCOther}}</td>
+                        <td>{{formatMoneyNormal balanceNBCTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ១-៣ ប្រាក់បញ្ញើនៅធនាគារផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal accountBank}}</td>
+                        <td>{{formatMoneyNormal accountBankOther}}</td>
+                        <td>{{formatMoneyNormal accountBankTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ១-៤ ប្រាក់បញ្ញើផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal interestReceivable}}</td>
+                        <td>{{formatMoneyNormal interestReceivableOther}}</td>
+                        <td>{{formatMoneyNormal interestReceivableTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>២ ឥណទាននិងបុរេប្រទានឲ្យអតិថិជនមិនមែនធនាគារ</td>
+                        <td>{{formatMoneyNormal loanAndAdvancedToCustomer}}</td>
+                        <td>{{formatMoneyNormal loanAndAdvancedToCustomerOther}}</td>
+                        <td>{{formatMoneyNormal loanAndAdvancedToCustomerTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ២-១ សមតុល្យឥណទាន</td>
+                        <td>{{formatMoneyNormal creditBalance}}</td>
+                        <td>{{formatMoneyNormal creditBalanceOther}}</td>
+                        <td>{{formatMoneyNormal creditBalanceTotal}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;&nbsp; ២-១-១ ដែលក្នុងនោះសមតុល្យនៅសល់តិចជាងមួយខែ</td>
+                        <td>{{formatMoneyNormal creditBalanceLessThanOneMonth}}</td>
+                        <td>{{formatMoneyNormal creditBalanceLessThanOneMonthOther}}</td>
+                        <td>{{formatMoneyNormal creditBalanceLessThanOneMonthTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp; ២-១-២ ដកធនបម្រុងសម្រាប់ការខាតបង់</td>
+                        <td>{{formatMoneyNormal loanLossReverse}}</td>
+                        <td>{{formatMoneyNormal loanLossReverseOther}}</td>
+                        <td>{{formatMoneyNormal loanLossReverseTotal}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp; ២-២ សមតុល្យឥណទានសុទ្ធ</td>
+                        <td>{{formatMoneyNormal netCreditBalance}}</td>
+                        <td>{{formatMoneyNormal netCreditBalanceOther}}</td>
+                        <td>{{formatMoneyNormal netCreditBalanceTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ២-៣ ការប្រាក់បង្គរដែលត្រូវទទួល</td>
+                        <td>{{formatMoneyNormal interestReceivableCredit}}</td>
+                        <td>{{formatMoneyNormal interestReceivableCreditOther}}</td>
+                        <td>{{formatMoneyNormal interestReceivableCreditTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>៣ អចលនទ្រព្យ</td>
+                        <td>{{formatMoneyNormal propertyAndEquipment}}</td>
+                        <td>{{formatMoneyNormal propertyAndEquipmentOther}}</td>
+                        <td>{{formatMoneyNormal propertyAndEquipmentTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៣-១ ដី (សុទ្ធ)</td>
+                        <td>{{formatMoneyNormal landNet}}</td>
+                        <td>{{formatMoneyNormal landNetOther}}</td>
+                        <td>{{formatMoneyNormal landNetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៣-១-១ ដី (តម្លៃសរុប)</td>
+                        <td>{{formatMoneyNormal land}}</td>
+                        <td>{{formatMoneyNormal landOther}}</td>
+                        <td>{{formatMoneyNormal landTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៣-១-២ ដក: រំលស់បង្គរ</td>
+                        <td>{{formatMoneyNormal landAccumulatedDep}}</td>
+                        <td>{{formatMoneyNormal landAccumulatedDepOther}}</td>
+                        <td>{{formatMoneyNormal landAccumulatedDepTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៣-២ អគារ (សុទ្ធ)</td>
+                        <td>{{formatMoneyNormal buildingNet}}</td>
+                        <td>{{formatMoneyNormal buildingNetOther}}</td>
+                        <td>{{formatMoneyNormal buildingNetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៣-២-១ អគារ (តម្លៃសរុប)</td>
+                        <td>{{formatMoneyNormal buildingAtCost}}</td>
+                        <td>{{formatMoneyNormal buildingAtCostOther}}</td>
+                        <td>{{formatMoneyNormal buildingAtCostTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៣-២-២ ដក: រំលស់បង្គរ</td>
+                        <td>{{formatMoneyNormal buildingAccumulatedDep}}</td>
+                        <td>{{formatMoneyNormal buildingAccumulatedDepOther}}</td>
+                        <td>{{formatMoneyNormal buildingAccumulatedDepTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៣-៣ អចលនទ្រព្យផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal otherFixAssetNet}}</td>
+                        <td>{{formatMoneyNormal otherFixAssetNetOther}}</td>
+                        <td>{{formatMoneyNormal otherFixAssetNetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៣-៣-១ អចលនទ្រព្យផ្សេងៗ (តម្លៃសរុប)</td>
+                        <td>{{formatMoneyNormal otherFixAssetsAtCost}}</td>
+                        <td>{{formatMoneyNormal otherFixAssetsAtCostOther}}</td>
+                        <td>{{formatMoneyNormal otherFixAssetsAtCostTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;៣-៣-២ ដក: រំលស់បង្គរ</td>
+                        <td>{{formatMoneyNormal otherFixedAssetAccumulatedDep}}</td>
+                        <td>{{formatMoneyNormal otherFixedAssetAccumulatedDepOther}}</td>
+                        <td>{{formatMoneyNormal otherFixedAssetAccumulatedDepTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>៣-៤ ទ្រព្យសកម្មអរូបិយ (សុទ្ធ)</td>
+                        <td>{{formatMoneyNormal sofeAsset}}</td>
+                        <td>{{formatMoneyNormal sofeAssetOther}}</td>
+                        <td>{{formatMoneyNormal sofeAssetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៣-៤-១ ទ្រព្យសកម្មអរូបិយ (តម្លៃសរុប)</td>
+                        <td>{{formatMoneyNormal sofeAssetValue}}</td>
+                        <td>{{formatMoneyNormal sofeAssetValueOther}}</td>
+                        <td>{{formatMoneyNormal sofeAssetValueTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៣-៤-២ ដក រំលស់បង្គរ</td>
+                        <td>{{formatMoneyNormal sofeAssetAccumulatedDep}}</td>
+                        <td>{{formatMoneyNormal sofeAssetAccumulatedDepOther}}</td>
+                        <td>{{formatMoneyNormal sofeAssetAccumulatedDepTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>៤ ទ្រព្យសកម្មដែលត្រូវទទួលនិងទ្រព្យសកម្មផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal fixAssetReceivable}}</td>
+                        <td>{{formatMoneyNormal fixAssetReceivableOther}}</td>
+                        <td>{{formatMoneyNormal fixAssetReceivableTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>៤-១ ជំពូកសម្រាប់ធ្វើបេឡានិច្ច័យ</td>
+                        <td>{{formatMoneyNormal chapter}}</td>
+                        <td>{{formatMoneyNormal chapterOther}}</td>
+                        <td>{{formatMoneyNormal chapterTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>៤-២ ទ្រព្យសកម្មផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal otherFix}}</td>
+                        <td>{{formatMoneyNormal otherFixOther}}</td>
+                        <td>{{formatMoneyNormal otherFixTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>ទ្រព្យសកម្មសរុប</td>
+                        <td>{{formatMoneyNormal totalAsset}}</td>
+                        <td>{{formatMoneyNormal totalAssetOther}}</td>
+                        <td>{{formatMoneyNormal totalAssetTotal}}</td>
+                    </tr>
+                    </tbody>
+                    <br>
+                    <thead class="report-content-header">
+                    <tr>
+                        <th>ទ្រព្យអកម្មនិងហ៊ុនរបស់ភាគទុនិក</th>
+                        <th>រៀល</th>
+                        <th>រូបិយប័ណ្ណផ្សេងៗ គិតជារៀល</th>
+                        <th>សរុបជារៀល</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>៥ ជំពាក់ធនាគារជាតិនិងធនាគារផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal owingNBCandOther}}</td>
+                        <td>{{formatMoneyNormal owingNBCandOtherOther}}</td>
+                        <td>{{formatMoneyNormal owingNBCandOtherTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;៥.១- ជំពាក់ធនាគារជាតិ</td>
+                        <td>{{formatMoneyNormal owingNBC}}</td>
+                        <td>{{formatMoneyNormal owingNBCOther}}</td>
+                        <td>{{formatMoneyNormal owingNBCTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;៥.១.១- ដែលក្នុងនោះតិចជាងមួយខែ</td>
+                        <td>{{formatMoneyNormal owingNBCLessThanMonth}}</td>
+                        <td>{{formatMoneyNormal owingNBCLessThanMonthOther}}</td>
+                        <td>{{formatMoneyNormal owingNBCLessThanMonthTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;៥.២- ជំពាក់ធនាគារផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal owingOther}}</td>
+                        <td>{{formatMoneyNormal owingOtherOther}}</td>
+                        <td>{{formatMoneyNormal owingOtherTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;៥.២.១- ដែលក្នុងនោះតិចជាងមួយខែ</td>
+                        <td>{{formatMoneyNormal owingOtherLessThanMonth}}</td>
+                        <td>{{formatMoneyNormal owingOtherLessThanMonthOther}}</td>
+                        <td>{{formatMoneyNormal owingOtherLessThanMonthTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>៥.៣- ការប្រាក់បង្គរ</td>
+                        <td>{{formatMoneyNormal interestNBC}}</td>
+                        <td>{{formatMoneyNormal interestNBCOther}}</td>
+                        <td>{{formatMoneyNormal interestNBCTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                    <tr style="background-color: lightgray">
+                        <td>៦ ប្រាក់បញ្ចើអតិថិជន</td>
+                        <td>{{formatMoneyNormal customerDeposit}}</td>
+                        <td>{{formatMoneyNormal customerDepositOther}}</td>
+                        <td>{{formatMoneyNormal customerDepositTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.១- សន្សំកាតព្វកិច្ច</td>
+                        <td>{{formatMoneyNormal compulsorySaving}}</td>
+                        <td>{{formatMoneyNormal compulsorySavingOther}}</td>
+                        <td>{{formatMoneyNormal compulsorySavingTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.២- សន្សំស្ម័ក្រចិត្ថ</td>
+                        <td>{{formatMoneyNormal voluntarySaving}}</td>
+                        <td>{{formatMoneyNormal voluntarySavingOther}}</td>
+                        <td>{{formatMoneyNormal voluntarySavingTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៦.២.១- ចរន្ត</td>
+                        <td>{{formatMoneyNormal savingDeposit}}</td>
+                        <td>{{formatMoneyNormal savingDepositOther}}</td>
+                        <td>{{formatMoneyNormal savingDepositTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៦.២.២- សំចៃ</td>
+                        <td>{{formatMoneyNormal demandDeposite}}</td>
+                        <td>{{formatMoneyNormal demandDepositeOther}}</td>
+                        <td>{{formatMoneyNormal demandDepositeTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ៦.២.៣- មានកាលកំណត់</td>
+                        <td>{{formatMoneyNormal termDeposite}}</td>
+                        <td>{{formatMoneyNormal termDepositeOther}}</td>
+                        <td>{{formatMoneyNormal termDepositeTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៦.៣- ការប្រាក់បង្គរ</td>
+                        <td>{{formatMoneyNormal interestPayable}}</td>
+                        <td>{{formatMoneyNormal interestPayableOther}}</td>
+                        <td>{{formatMoneyNormal interestPayableTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>៧ គណនីព្យួរទុកនិងទ្រព្យអកម្មផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal accountsPayableAndOtherLiabilities}}</td>
+                        <td>{{formatMoneyNormal accountsPayableAndOtherLiabilitiesOther}}</td>
+                        <td>{{formatMoneyNormal accountsPayableAndOtherLiabilitiesTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;៧.១ គណនីត្រូវសង</td>
+                        <td>{{formatMoneyNormal accountPayable}}</td>
+                        <td>{{formatMoneyNormal accountPayableOther}}</td>
+                        <td>{{formatMoneyNormal accountPayableTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;៧.២ បង្គរ</td>
+                        <td>{{formatMoneyNormal interestPay}}</td>
+                        <td>{{formatMoneyNormal interestPayOther}}</td>
+                        <td>{{formatMoneyNormal interestPayTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;៧.៣ ពន្ធត្រូវបង់</td>
+                        <td>{{formatMoneyNormal taxPay}}</td>
+                        <td>{{formatMoneyNormal taxPayOther}}</td>
+                        <td>{{formatMoneyNormal taxPayTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;៧.៤ ទ្រព្យអកម្មផ្សេងៗ</td>
+                        <td>{{formatMoneyNormal otherFixedAsset}}</td>
+                        <td>{{formatMoneyNormal otherFixedAssetOther}}</td>
+                        <td>{{formatMoneyNormal otherFixedAssetTotal}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>៨ ហ៊ុនរបស់ភាគទុនិក</td>
+                        <td>{{formatMoneyNormal shareHolder}}</td>
+                        <td>{{formatMoneyNormal shareHolderOther}}</td>
+                        <td>{{formatMoneyNormal shareHolderTotal}}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>&nbsp; ៨.១- ដើមទុនលកខន្តិកៈ</td>
+                        <td>{{formatMoneyNormal paidUpCapital}}</td>
+                        <td>{{formatMoneyNormal paidUpCapitalOther}}</td>
+                        <td>{{formatMoneyNormal paidUpCapitalTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.១.១- ដើមទុនបង់ហើយ</td>
+                        <td>{{formatMoneyNormal premiumOnShareCapital}}</td>
+                        <td>{{formatMoneyNormal premiumOnShareCapitalOther}}</td>
+                        <td>{{formatMoneyNormal premiumOnShareCapitalTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.១.២- ដកចេញ : មិនទាន់បានបង់</td>
+                        <td>{{formatMoneyNormal unPremiumOnShareCapital}}</td>
+                        <td>{{formatMoneyNormal unPremiumOnShareCapitalOther}}</td>
+                        <td>{{formatMoneyNormal unPremiumOnShareCapitalTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.២- បំណុលបន្ទាប់បន្សំ(ទទួលស្គាល់ពីធនាគារជាតិ)</td>
+                        <td>{{formatMoneyNormal littleAP}}</td>
+                        <td>{{formatMoneyNormal littleAPOther}}</td>
+                        <td>{{formatMoneyNormal littleAPTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.៣- ប្រាក់បម្រុងនិងសំវិធានធន</td>
+                        <td>{{formatMoneyNormal reservesAndAppropriations}}</td>
+                        <td>{{formatMoneyNormal reservesAndAppropriationsOther}}</td>
+                        <td>{{formatMoneyNormal reservesAndAppropriationsTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.៤- ចំណេញរក្សាទុក/ខាតពីឆ្នាំមុន</td>
+                        <td>{{formatMoneyNormal retainedEarning}}</td>
+                        <td>{{formatMoneyNormal retainedEarningOther}}</td>
+                        <td>{{formatMoneyNormal retainedEarningTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.៥- ចំណេញខាតក្នុងឆ្នាំ</td>
+                        <td>{{formatMoneyNormal netIncome}}</td>
+                        <td>{{formatMoneyNormal netIncomeOther}}</td>
+                        <td>{{formatMoneyNormal netIncomeTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>៨.៦- Donated Capital</td>
+                        <td>{{formatMoneyNormal donatedCapitalNet}}</td>
+                        <td>{{formatMoneyNormal donatedCapitalNetOther}}</td>
+                        <td>{{formatMoneyNormal donatedCapitalNetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.៦.១- អំណោយ</td>
+                        <td>{{formatMoneyNormal donatedCapital}}</td>
+                        <td>{{formatMoneyNormal donatedCapitalOther}}</td>
+                        <td>{{formatMoneyNormal donatedCapitalTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; ៨.៦.២- មូលនិធិសាធារណៈ</td>
+                        <td>{{formatMoneyNormal hybridCapitalInvestment}}</td>
+                        <td>{{formatMoneyNormal hybridCapitalInvestmentOther}}</td>
+                        <td>{{formatMoneyNormal hybridCapitalInvestmentTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="background-color: lightgray">
+                        <td>ទ្រព្យអកម្ម + ហ៊ុនរបស់ភាគទុនិកសរុប</td>
+                        <td>{{formatMoneyNormal totalLiabilitiesAndEquity}}</td>
+                        <td>{{formatMoneyNormal totalLiabilitiesAndEquityOther}}</td>
+                        <td>{{formatMoneyNormal totalLiabilitiesAndEquityTotal}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+            {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+
+</template>

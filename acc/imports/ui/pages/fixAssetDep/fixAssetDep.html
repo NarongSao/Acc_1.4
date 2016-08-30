@@ -1,0 +1,148 @@
+<template name="acc_fixAssetDep">
+    <div class="animated fadeIn">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                <p>
+                    <button type="button" class="btn btn-primary fixedAssetSummaryDepreciation">{{fa "file"}}
+                        FixedAsset Depreciation
+                    </button>
+                </p>
+            </h3>
+        </div>
+        <div class="box-body">
+            {{> tabular table=tabularTable selector=selector class="table table-striped table-bordered table-condensed table-hover"}}
+        </div>
+    </div>
+</template>
+
+<template name="acc_fixAssetDepAction">
+    <button class="btn btn-default depList btn-sm"><a href="#">{{fa "file"}}</a></button>
+</template>
+
+<template name="acc_fixAssetDepList">
+        {{#if data}}
+            {{#ReportContent options}}
+                {{#with data}}
+
+                    <!--Title-->
+                    {{#with title}}
+                        <div class="title">
+                            <div class="title-1x-kh-muol">{{khName}}</div>
+                            <div class="title-1x">{{enName}}</div>
+                            <div><u>Depreciation Schedule</u></div>
+                            <div class="title-2x">{{enAddress}}</div>
+                        </div>
+                    {{/with}}
+
+                    <!--Header-->
+                    {{#with header}}
+                        <div style="width: 100%">
+                            <div style="width: 50%; float: left">
+                                <ul class="list-unstyled">
+                                    <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                                </ul>
+                            </div>
+
+                            <div style="width: 50%; float: right">
+                                <ul class="list-unstyled">
+                                    <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    {{/with}}
+
+                    <!--Content-->
+                    <table class="report-content">
+                        <thead class="report-content-header">
+                        <tr>
+                            <th>Year</th>
+                            <th>Per Month</th>
+                            <th>Per Year</th>
+                            <th>Cum Deprec</th>
+                            <th>BV End Year</th>
+                            <th>Expense Month</th>
+                        </tr>
+                        </thead>
+                        <tbody class="report-content-body">
+
+                        {{{content}}}
+
+                        </tbody>
+                    </table>
+                    <!--Footer-->
+                {{/with}}
+
+                <!--Sign-->
+                {{> ReportSignFooter}}
+
+            {{/ReportContent}}
+        {{else}}
+            {{> loading}}
+        {{/if}}
+</template>
+<template name="acc_fixAssetDepSummaryList">
+
+    {{#if data}}
+        {{#ReportContent options}}
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Depreciation on Property and Equipment</u></div>
+
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>End Of :</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="report-content-header">
+                    <tr>
+                        <th>N<sup>o</sup></th>
+                        <th>Code</th>
+                        <th>Description</th>
+                        <th>Issue Date</th>
+                        <th>Price</th>
+                        <th>%Year</th>
+                        <th>Months</th>
+                        <th>Depre/Exp</th>
+                        <th>Acc/Depre</th>
+                        <th>Net Book Value</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+
+                    {{{content}}}
+
+                    </tbody>
+                </table>
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+        {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>

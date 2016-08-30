@@ -1,0 +1,137 @@
+<!-- Form -->
+<template name="acc_journalReport">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_journalReport" action="journalReportGen" target="_blank"}}
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{> afQuickField name='branchId'}}
+                        {{> afQuickField name='currencyId'}}
+                        {{> afQuickField name='date'}}
+                        <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+                        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='accountType' size=10}}
+                        {{> afQuickField name='chartAccount'}}
+                    </div>
+                </div>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+
+<!-- Generate -->
+<template name="acc_journalReportGen">
+    <!--Is ready-->
+    {{#if data}}
+        {{#ReportContent options}}
+
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Journal Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="report-content-header">
+                    <tr>
+                        <th>No</th>
+                        <th>Date</th>
+                        <th>Invoice</th>
+                        <th>Memo</th>
+                        <th>Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+                    {{#each content}}
+                        <tr class="journalRow">
+                            <td width="30px">{{order}}</td>
+                            <td width="70px">{{journalDateFm}}</td>
+                            <td width="70px">{{substrVoucher voucherId}}</td>
+                            <td>{{memo}}</td>
+                            <td>{{#each transaction}}
+                                {{accountDoc.code}}:{{accountDoc.name}}<br>
+                            {{/each}}
+                            </td>
+                            <td>
+                                {{#each transaction}}
+                                    {{formatMoneyNormal dr}}<br>
+                                {{/each}}
+                            </td>
+                            <td>{{#each transaction}}
+                                {{formatMoneyNormal cr}}<br>
+                            {{/each}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: hidden"></td>
+                            <td style="border-top: hidden"></td>
+                            <td style="border-top: hidden"></td>
+                            <td style="border-top: hidden"></td>
+                            <td style="border-top: hidden"></td>
+                            <td align="right" style=" border-top: medium">
+                                <b>{{getCurrency  currencyId}}{{formatMoneyNormal total}}</b>
+                            </td>
+                            <td align="right" style=" border-top: medium">
+                                <b>{{getCurrency currencyId}}{{formatMoneyNormal total}}</b>
+                            </td>
+                        </tr>
+
+                    {{/each}}
+                    <tr>
+                        <td colspan="5" align="right"><b>Total USD </b></td>
+                        <td style="border-top: medium" align="right"><b>{{formatMoneyNormal grandTotalDollar}}</b></td>
+                        <td style="border-top: medium" align="right"><b>{{formatMoneyNormal grandTotalDollar}}</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" align="right"><b>Rield </b></td>
+                        <td style="border-top: medium" align="right"><b>{{formatMoneyNormal grandTotalRiel}}</b></td>
+                        <td style="border-top: medium" align="right"><b>{{formatMoneyNormal grandTotalRiel}}</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" align="right"><b>Bath </b></td>
+                        <td style="border-top: medium" align="right"><b>{{formatMoneyNormal grandTotalBath}}</b></td>
+                        <td style="border-top: medium" align="right"><b>{{formatMoneyNormal grandTotalBath}}</b></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+        {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>

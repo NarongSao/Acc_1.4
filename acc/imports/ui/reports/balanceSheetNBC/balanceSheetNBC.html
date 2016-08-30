@@ -1,0 +1,528 @@
+<template name="acc_BalanceSheetNBCReport">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_BalanceSheetNBCReport" action="BalanceSheetNBCReportGen" target="_blank"}}
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{> afQuickField name='branchId'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='exchangeDate'}}
+                    </div>
+                    <div class="col-md-6">
+                        {{> afQuickField name='date'}}
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+<template name="acc_BalanceSheetNBCReportGen">
+
+    <!--Is ready-->
+    {{#if data}}
+        {{#ReportContent options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>BALANCE SHEET</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{getBranch branchId}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="report-content-header">
+                    <tr>
+                        <th>ASSETS</th>
+                        <th style="width: 20%">Riels</th>
+                        <th style="width: 20%">Other Currencies Translated Into Riels</th>
+                        <th style="width: 20%">Total in Riels</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>1 Cash and Balance with NBC and other Banks</td>
+                        <td>{{formatMoneyNormal cashAndBalanceWithNBC}}</td>
+                        <td>{{formatMoneyNormal cashAndBalanceWithNBCOther}}</td>
+                        <td>{{formatMoneyNormal cashAndBalanceWithNBCTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 1.1- Cash, cheques and other items</td>
+                        <td>{{formatMoneyNormal cashOnHand}}</td>
+                        <td>{{formatMoneyNormal cashOnHandOther}}</td>
+                        <td>{{formatMoneyNormal cashOnHandTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 1.2- Balances with NBC</td>
+                        <td>{{formatMoneyNormal balanceNBC}}</td>
+                        <td>{{formatMoneyNormal balanceNBCOther}}</td>
+                        <td>{{formatMoneyNormal balanceNBCTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 1.3- Accounts with banks and other financial institution</td>
+                        <td>{{formatMoneyNormal accountBank}}</td>
+                        <td>{{formatMoneyNormal accountBankOther}}</td>
+                        <td>{{formatMoneyNormal accountBankTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 1.4- Interest receivable</td>
+                        <td>{{formatMoneyNormal interestReceivable}}</td>
+                        <td>{{formatMoneyNormal interestReceivableOther}}</td>
+                        <td>{{formatMoneyNormal interestReceivableTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>2 Loans and Advances to Customers</td>
+                        <td>{{formatMoneyNormal loanAndAdvancedToCustomer}}</td>
+                        <td>{{formatMoneyNormal loanAndAdvancedToCustomerOther}}</td>
+                        <td>{{formatMoneyNormal loanAndAdvancedToCustomerTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 2.1- Total loans outstanding</td>
+                        <td>{{formatMoneyNormal totalLoanOutStanding}}</td>
+                        <td>{{formatMoneyNormal totalLoanOutStandingOther}}</td>
+                        <td>{{formatMoneyNormal totalLoanOutStandingTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 2.2- Less: Loan loss reserve</td>
+                        <td>{{formatMoneyNormal loanLossReverse}}</td>
+                        <td>{{formatMoneyNormal loanLossReverseOther}}</td>
+                        <td>{{formatMoneyNormal loanLossReverseTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 2.3- Interest receivable(Net)</td>
+                        <td>{{formatMoneyNormal interestReceivableNet}}</td>
+                        <td>{{formatMoneyNormal interestReceivableNetOther}}</td>
+                        <td>{{formatMoneyNormal interestReceivableNetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>3 Prepayments and Short-term Receivable</td>
+                        <td>{{formatMoneyNormal prePayment}}</td>
+                        <td>{{formatMoneyNormal prePaymentOther}}</td>
+                        <td>{{formatMoneyNormal prePaymentTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>4 Long Term Investments</td>
+                        <td>{{formatMoneyNormal longTermInvestments}}</td>
+                        <td>{{formatMoneyNormal longTermInvestmentsOther}}</td>
+                        <td>{{formatMoneyNormal longTermInvestmentsTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>5 Property and Equipment</td>
+                        <td>{{formatMoneyNormal propertyAndEquipment}}</td>
+                        <td>{{formatMoneyNormal propertyAndEquipmentOther}}</td>
+                        <td>{{formatMoneyNormal propertyAndEquipmentTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 5.1- Land (Net)</td>
+                        <td>{{formatMoneyNormal landNet}}</td>
+                        <td>{{formatMoneyNormal landNetOther}}</td>
+                        <td>{{formatMoneyNormal landNetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.1.1- Land at Cost</td>
+                        <td>{{formatMoneyNormal land}}</td>
+                        <td>{{formatMoneyNormal landOther}}</td>
+                        <td>{{formatMoneyNormal landTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.1.2- Less: accumulated depreciation</td>
+                        <td>{{formatMoneyNormal landAccumulatedDep}}</td>
+                        <td>{{formatMoneyNormal landAccumulatedDepOther}}</td>
+                        <td>{{formatMoneyNormal landAccumulatedDepTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 5.2- Building (Net)</td>
+                        <td>{{formatMoneyNormal buildingNet}}</td>
+                        <td>{{formatMoneyNormal buildingNetOther}}</td>
+                        <td>{{formatMoneyNormal buildingNetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.1- Building at cost</td>
+                        <td>{{formatMoneyNormal buildingAtCost}}</td>
+                        <td>{{formatMoneyNormal buildingAtCostOther}}</td>
+                        <td>{{formatMoneyNormal buildingAtCostTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.2.2- Less: accumulated depreciation</td>
+                        <td>{{formatMoneyNormal buildingAccumulatedDep}}</td>
+                        <td>{{formatMoneyNormal buildingAccumulatedDepOther}}</td>
+                        <td>{{formatMoneyNormal buildingAccumulatedDepTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 5.3- Other Fixed Assets (Net)</td>
+                        <td>{{formatMoneyNormal otherFixAssetNet}}</td>
+                        <td>{{formatMoneyNormal otherFixAssetNetOther}}</td>
+                        <td>{{formatMoneyNormal otherFixAssetNetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.3.1- Other fixed assets at cost</td>
+                        <td>{{formatMoneyNormal otherFixAssetsAtCost}}</td>
+                        <td>{{formatMoneyNormal otherFixAssetsAtCostOther}}</td>
+                        <td>{{formatMoneyNormal otherFixAssetsAtCostTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.3.2- Less: accumulated depreciation</td>
+                        <td>{{formatMoneyNormal otherFixedAssetAccumulatedDep}}</td>
+                        <td>{{formatMoneyNormal otherFixedAssetAccumulatedDepOther}}</td>
+                        <td>{{formatMoneyNormal otherFixedAssetAccumulatedDepTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>6 Other Assets</td>
+                        <td>{{formatMoneyNormal otherAsset}}</td>
+                        <td>{{formatMoneyNormal otherAssetOther}}</td>
+                        <td>{{formatMoneyNormal otherAssetTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>TOTAL ASSETS</td>
+                        <td>{{formatMoneyNormal totalAsset}}</td>
+                        <td>{{formatMoneyNormal totalAssetOther}}</td>
+                        <td>{{formatMoneyNormal totalAssetTotal}}</td>
+                    </tr>
+                    </tbody>
+                    <br>
+                    <thead class="report-content-header">
+                    <tr>
+                        <th>LIABILITIES AND EQUITY ACCOUNTS</th>
+                        <th>Riels</th>
+                        <th>Other Currencies Translated Into Riels</th>
+                        <th>Total in Riels</th>
+                    </tr>
+                    </thead>
+                    <tbody class="report-content-body">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>7 Customer's Deposits</td>
+                        <td>{{formatMoneyNormal customerDeposit}}</td>
+                        <td>{{formatMoneyNormal customerDepositOther}}</td>
+                        <td>{{formatMoneyNormal customerDepositTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 7.1- Compulsory Savings</td>
+                        <td>{{formatMoneyNormal compulsorySaving}}</td>
+                        <td>{{formatMoneyNormal compulsorySavingOther}}</td>
+                        <td>{{formatMoneyNormal compulsorySavingTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 7.2- Voluntary Savings</td>
+                        <td>{{formatMoneyNormal voluntarySaving}}</td>
+                        <td>{{formatMoneyNormal voluntarySavingOther}}</td>
+                        <td>{{formatMoneyNormal voluntarySavingTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.2.1- Saving deposits</td>
+                        <td>{{formatMoneyNormal savingDeposit}}</td>
+                        <td>{{formatMoneyNormal savingDepositOther}}</td>
+                        <td>{{formatMoneyNormal savingDepositTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.2.2- Demand deposits</td>
+                        <td>{{formatMoneyNormal demandDeposite}}</td>
+                        <td>{{formatMoneyNormal demandDepositeOther}}</td>
+                        <td>{{formatMoneyNormal demandDepositeTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.2.3- Term deposits</td>
+                        <td>{{formatMoneyNormal termDeposite}}</td>
+                        <td>{{formatMoneyNormal termDepositeOther}}</td>
+                        <td>{{formatMoneyNormal termDepositeTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.2.4- Other deposits</td>
+                        <td>{{formatMoneyNormal otherDeposite}}</td>
+                        <td>{{formatMoneyNormal otherDepositeOther}}</td>
+                        <td>{{formatMoneyNormal otherDepositeTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 7.3- Interest payable</td>
+                        <td>{{formatMoneyNormal interestPayable}}</td>
+                        <td>{{formatMoneyNormal interestPayableOther}}</td>
+                        <td>{{formatMoneyNormal interestPayableTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 7.4- Others</td>
+                        <td>{{formatMoneyNormal other}}</td>
+                        <td>{{formatMoneyNormal otherOther}}</td>
+                        <td>{{formatMoneyNormal otherTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>8 Accounts Payable and Other Liabilities</td>
+                        <td>{{formatMoneyNormal accountsPayableAndOtherLiabilities}}</td>
+                        <td>{{formatMoneyNormal accountsPayableAndOtherLiabilitiesOther}}</td>
+                        <td>{{formatMoneyNormal accountsPayableAndOtherLiabilitiesTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>9 Accrued Expenses and provisions</td>
+                        <td>{{formatMoneyNormal accruedExpenseAndProvisions}}</td>
+                        <td>{{formatMoneyNormal accruedExpenseAndProvisionsOther}}</td>
+                        <td>{{formatMoneyNormal accruedExpenseAndProvisionsTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>10 Loan Payable</td>
+                        <td>{{formatMoneyNormal loanPayable}}</td>
+                        <td>{{formatMoneyNormal loanPayableOther}}</td>
+                        <td>{{formatMoneyNormal loanPayableTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 10.1- Loans payable,short-term</td>
+                        <td>{{formatMoneyNormal loanPayableShortTerm}}</td>
+                        <td>{{formatMoneyNormal loanPayableShortTermOther}}</td>
+                        <td>{{formatMoneyNormal loanPayableShortTermTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 10.2- Loans payable, Long-term</td>
+                        <td>{{formatMoneyNormal loanPayableLongTerm}}</td>
+                        <td>{{formatMoneyNormal loanPayableLongTermOther}}</td>
+                        <td>{{formatMoneyNormal loanPayableLongTermTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>11 Deferred Revenue</td>
+                        <td>{{formatMoneyNormal defferedRevenue}}</td>
+                        <td>{{formatMoneyNormal defferedRevenueOther}}</td>
+                        <td>{{formatMoneyNormal defferedRevenueTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>12 Suspense, Clearing and interbranch Accounts</td>
+                        <td>{{formatMoneyNormal suspenseClearing}}</td>
+                        <td>{{formatMoneyNormal suspenseClearingOther}}</td>
+                        <td>{{formatMoneyNormal suspenseClearingTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>13 Other Liabilities</td>
+                        <td>{{formatMoneyNormal otherLiability}}</td>
+                        <td>{{formatMoneyNormal otherLiabilityOther}}</td>
+                        <td>{{formatMoneyNormal otherLiabilityTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>TOTAL LIABILITIES</td>
+                        <td>{{formatMoneyNormal totalLiability}}</td>
+                        <td>{{formatMoneyNormal totalLiabilityOther}}</td>
+                        <td>{{formatMoneyNormal totalLiabilityTotal}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>14 Equity Accounts</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 14.1- Paid-up Capital</td>
+                        <td>{{formatMoneyNormal paidUpCapital}}</td>
+                        <td>{{formatMoneyNormal paidUpCapitalOther}}</td>
+                        <td>{{formatMoneyNormal paidUpCapitalTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 14.2- Premium on Share Capital</td>
+                        <td>{{formatMoneyNormal premiumOnShareCapital}}</td>
+                        <td>{{formatMoneyNormal premiumOnShareCapitalOther}}</td>
+                        <td>{{formatMoneyNormal premiumOnShareCapitalTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 14.3- Donated Capital</td>
+                        <td>{{formatMoneyNormal donadedCapital}}</td>
+                        <td>{{formatMoneyNormal donadedCapitalOther}}</td>
+                        <td>{{formatMoneyNormal donadedCapitalTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 14.4- Hybrid Capital Investment</td>
+                        <td>{{formatMoneyNormal hybridCapitalInvestment}}</td>
+                        <td>{{formatMoneyNormal hybridCapitalInvestmentOther}}</td>
+                        <td>{{formatMoneyNormal hybridCapitalInvestmentTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 14.5- Reserves and appropiations</td>
+                        <td>{{formatMoneyNormal reservesAndAppropriations}}</td>
+                        <td>{{formatMoneyNormal reservesAndAppropriationsOther}}</td>
+                        <td>{{formatMoneyNormal reservesAndAppropriationsTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 14.6- Retained Earning</td>
+                        <td>{{formatMoneyNormal retainedEarning}}</td>
+                        <td>{{formatMoneyNormal retainedEarningOther}}</td>
+                        <td>{{formatMoneyNormal retainedEarningTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp; 14.7- Net Income/loss for the current period</td>
+                        <td>{{formatMoneyNormal netIncome}}</td>
+                        <td>{{formatMoneyNormal netIncomeOther}}</td>
+                        <td>{{formatMoneyNormal netIncomeTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>TOTAL EQUITY</td>
+                        <td>{{formatMoneyNormal totalEquity}}</td>
+                        <td>{{formatMoneyNormal totalEquityOther}}</td>
+                        <td>{{formatMoneyNormal totalEquityTotal}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td>TOTAL LIABILITIES AND EQUITY ACCOUNTS</td>
+                        <td>{{formatMoneyNormal totalLiabilitiesAndEquity}}</td>
+                        <td>{{formatMoneyNormal totalLiabilitiesAndEquityOther}}</td>
+                        <td>{{formatMoneyNormal totalLiabilitiesAndEquityTotal}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <!--Footer-->
+            {{/with}}
+
+            <!--Sign-->
+            {{> ReportSignFooter}}
+
+        {{/ReportContent}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+
+</template>

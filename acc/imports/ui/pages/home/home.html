@@ -1,0 +1,110 @@
+<template name="acc_home">
+    <div class="animated fadeIn">
+        <br><br>
+
+        <div class="col-md-12" style="height: 250px">
+            <div class="col-md-6" style="height: 250px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><img src="/data.ico" width="25px"
+                                                     height="25px"> Data Entry</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'acc.journal'}}">
+                                <img class="img" src="/My-Daily-Journal_icon.png" title="Journal Entry">
+                                <span style="font-size:xx-small;">JournalEntry</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="height: 250px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><img src="/nbcreport.ico" width="25px"
+                                                     height="25px"> Accountant</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="col-md-4 textcenter">
+                                <a href="{{pathFor 'acc.journalReport'}}"><img class="img"
+                                                                               src="/openerp-account-journal-report-xls.png"><span
+                                        style="font-size:xx-small">JournalList</span></a>
+                            </div>
+                            <div class="col-md-4 textcenter">
+                                <a href="{{pathFor 'acc.ledgerReport'}}">
+                            <span style="font-size:xx-small;text-align: center">
+                            <img class="img" src="/GL-256.png">
+                           GeneralLedger</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 textcenter">
+                                <a href="{{pathFor 'acc.trialBalanceReport'}}"><img class="img"
+                                                                                    src="/trial-balance.jpg"><span
+                                        style="font-size:xx-small">TrialBalance</span></a>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12" style="margin-top: 5%">
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'acc.currencyClosingReport'}}"><img class="img"
+                                                                                   src="/currencyClosing.jpg"><span
+                                    style="font-size:xx-small">CurrencyClosing</span></a>
+                        </div>
+                    </div> -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br><br>
+
+        <div class="col-md-12" style="height: 250px">
+            <div class="col-md-6" style="height: 250px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><img src="/report.ico" width="25px"
+                                                     height="25px"> Report</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'acc.balanceSheetReport'}}">
+                                <img class="img" src="/Services_BalanceSheet.png"><span
+                                    style="font-size:xx-small">BalanceSheet</span></a>
+                        </div>
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'acc.ProfitLostReport'}}"><img class="img"
+                                                                              src="/profit_and_loss_report_icon_1.png"><span
+                                    style="font-size:xx-small">Profit&Lost</span></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6" style="height: 250px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><img src="/setting.ico" width="25px"
+                                                     height="25px"> Setting</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'cpanel.exchange'}}"><img class="img" src="/exchange.jpg"><span
+                                    style="font-size:xx-small">Exchange</span></a>
+                        </div>
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'acc.chartAccount'}}"><img class="img" src="/chartAccount.png"><span
+                                    style="font-size:xx-small">ChartAccount</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</template>

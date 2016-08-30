@@ -1,0 +1,89 @@
+<!--Journal Temporary-->
+<template name="acc_journalDetail">
+    {{#autoForm schema=schema id="acc_journalDetail"}}
+        <div class="row" style="padding-left: 1%;">
+            <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                {{> afQuickField name='account' id='account' class="input-sm" style="width: 100%"}}
+            </div>
+            <div class="col-sm-5" style="padding-right:1px;padding-left:0px;">
+                <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                    {{> afQuickField name='dr' value=tmpDr class="input-sm"}}
+                </div>
+                <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                    {{> afQuickField name='cr' value=tmpCr class="input-sm"}}
+                </div>
+            </div>
+
+            <div class="col-sm-1" style="padding-right:0px;padding-left:0px;margin-top: 5px;">
+                <br>
+                <button type="button" class="btn btn-primary addItem input-sm" {{cssClassForAddMore}}>+</button>
+            </div>
+        </div>
+        <hr>
+        {{#each journals}}
+            <div class="row listJournal" style="padding-left: 1%;">
+                <div class="col-sm-6"
+                     style="padding-right:1px;padding-left:0px;">
+                    <input type="text" value={{account}} style="width: 100%" class="form-control input-sm"
+                    readonly=true>
+                </div>
+                <div class="col-sm-5" style="padding-right:1px;padding-left:0px;">
+                    <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                        <div style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{formatMoney dr}} style="width: 100%" class="form-control
+                            input-sm" readonly=true>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" style="padding-right:1px;padding-left:0px;">
+                        <div style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{formatMoney cr}} style="width: 100%" class="form-control
+                            input-sm" readonly=true>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1" style="padding-right:1px;padding-left:0px;">
+                    <ul class="list-inline input-sm" style="padding-right:0px; padding-left:0px;">
+                        <li><a href="#" class="js-update-item input-sm" style="padding-right:0px; padding-left:1px;"><i
+                                class="fa fa-pencil"></i></a></li>
+                        <li><a href="#" class="js-destroy-item input-sm" style="padding-right:0px; padding-left:0px;"><i
+                                class="fa fa-remove text-red"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        {{/each}}
+    {{/autoForm}}
+</template>
+
+<template name="acc_journalDetailUpdate">
+    <div class="box-body">
+        {{#autoForm schema=schema id="acc_journalDetailUpdate" doc=this}}
+            <div class="form-horizontal">
+                <fieldset>
+                    <div>
+                        <label class="control-label col-sm-3">Account:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="account" label=false}}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="control-label col-sm-3">Debit:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="dr" value=tmpDr label=false}}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="control-label col-sm-3">Credit:</label>
+                        <div class="col-sm-9">
+                            {{> afQuickField name="cr" value=tmpCr label=false}}
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-sm-offset-9">
+                        <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+                    </div>
+                </fieldset>
+            </div>
+        {{/autoForm}}
+    </div>
+</template>
+
+
