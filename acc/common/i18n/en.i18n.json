@@ -25,7 +25,7 @@
       "trialBalanceReport": "Trial Balance",
       "currencyClosingReport": "Currency Closing",
       "chartNetIncome": "Net Income",
-      "chartProfitLostComparation": "Profit Lost Comparation"
+      "accountComparation": "Account Comparation"
     },
     "home": {
       "title": "Home",
@@ -179,8 +179,8 @@
     "chartNetIncome": {
       "title": "Net Income"
     },
-    "chartProfitLostComparation": {
-      "title": "Profit Lost Comparation"
+    "accountComparation": {
+      "title": "Account Comparation"
     }
   }
 }

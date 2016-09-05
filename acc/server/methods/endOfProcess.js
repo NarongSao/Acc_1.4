@@ -8,6 +8,7 @@ import {moment} from  'meteor/momentjs:moment';
 // Collection
 import {Journal} from '../../imports/api/collections/journal';
 import {CloseChartAccount} from '../../imports/api/collections/closeChartAccount';
+import {CloseChartAccountPerMonth} from '../../imports/api/collections/closeChartAccountPerMonth';
 import {DateEndOfProcess} from '../../imports/api/collections/dateEndOfProcess';
 import {NetInCome} from '../../imports/api/collections/netIncome';
 
@@ -53,6 +54,28 @@ Meteor.methods({
                 parentId: obj._id.parent
             })
         });
+
+        //Insert Current Month
+        data.forEach(function (ob) {
+            CloseChartAccountPerMonth.insert({
+                closeChartAccountId: ob.closeChartAccountId,
+                code: ob.code,
+                name: ob.name,
+                value: ob.value,
+                closeDate: moment(ob.closeDate,"DD/MM/YYYY").toDate(),
+                currencyId: ob.currencyId,
+                branchId: ob.branchId,
+                accountTypeId: ob.accountTypeId,
+                level: ob.level,
+                parentId: ob.parentId,
+                endId: endId,
+                year: moment(ob.closeDate,"DD/MM/YYYY").format("YYYY"),
+                month: moment(ob.closeDate,"DD/MM/YYYY").format("MM")
+            })
+        });
+
+
+
 
         if (lastDate !== null) {
             if (curMonth == "12") {
@@ -134,6 +157,7 @@ Meteor.methods({
                     Journal.remove({endId: id});
                 }
                 DateEndOfProcess.remove(id);
+                CloseChartAccountPerMonth.remove({endId: id});
             }
         });
 

@@ -47,18 +47,18 @@ AccRoutes.route('/chartNetIncome', {
     }
 });
 
-// Profit Lost Comparation
-import '../imports/ui/pages/chart/profitLostComparation/profitLostComparation';
-AccRoutes.route('/chartProfitLostComparation', {
-    name: 'acc.chartProfitLostComparation',
-    title: __('acc.chartProfitLostComparation.title'),
+// Account Comparation
+import '../imports/ui/pages/chart/accountComparation/accountComparation';
+AccRoutes.route('/chartAccountComparation', {
+    name: 'acc.accountComparation',
+    title: __('acc.accountComparation.title'),
     action: function(params, queryParams) {
-        Layout.main('acc_chartProfitLostComparation');
+        Layout.main('acc_accountComparation');
     },
     breadcrumb: {
         //params: ['id'],
         //queryParams: ['show', 'color'],
-        title: 'Chart Profit Lost Comparation',
+        title: 'Chart Account Comparation',
         parent: 'acc.home'
     }
 });

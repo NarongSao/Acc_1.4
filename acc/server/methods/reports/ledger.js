@@ -59,9 +59,16 @@ Meteor.methods({
             if (self.chartAccount != "All") {
                 selector['transaction.accountDoc._id'] = self.chartAccount;
             }
+
+            if (!_.isArray(self.accountType)) {
+                var accountTypeList = self.accountType.split(',');
+            } else {
+                var accountTypeList = self.accountType;
+            }
+
             if (self.accountType != null) {
                 selector['transaction.accountDoc.accountTypeId'] = {
-                    $in: self.accountType
+                    $in: accountTypeList
                 };
             }
             if (self.currencyId != "All") {
@@ -74,9 +81,12 @@ Meteor.methods({
             if (self.chartAccount != "All") {
                 selectorChartAccount._id = self.chartAccount;
             }
+
+
+
             if (self.accountType != null) {
                 selectorChartAccount.accountTypeId = {
-                    $in: self.accountType
+                    $in: accountTypeList
                 };
             }
 
