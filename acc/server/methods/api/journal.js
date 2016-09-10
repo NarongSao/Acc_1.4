@@ -6,7 +6,7 @@ import {idGenerator} from 'meteor/theara:id-generator';
 import {Journal} from '../../../imports/api/collections/journal';
 
 Meteor.methods({
-    otherSystem_journalInsert: function (data) {
+    api_journalInsert: function (data) {
         check(data, Object);
         _.defaults(data, {
             journalDate: moment().format('DD/MM/YYYY'),
@@ -26,7 +26,7 @@ Meteor.methods({
 
         return Journal.insert(data);
     },
-    otherSystem_journalUpdate: function (data, journalId) {
+    api_journalUpdate: function (data, journalId) {
         check(data, Object);
         _.defaults(data, {
             journalDate: moment().format('DD/MM/YYYY'),
@@ -48,7 +48,7 @@ Meteor.methods({
         return Journal.update({_id: journalId,refId: data.refId, refFrom: data.refFrom}, {$set: data});
     },
 
-    otherSystem_journalRemove: function (journalId, refId, refFrom) {
+    api_journalRemove: function (journalId, refId, refFrom) {
         return Journal.remove({_id: journalId, refId: refId, refFrom: refFrom});
     }
 });
