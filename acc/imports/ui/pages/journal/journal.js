@@ -235,7 +235,6 @@ indexTpl.events({
         Meteor.call('otherSystem_journalInsert', data);
     },
     'click .otherSystem_journalUpdate': function (e, t) {
-        let journalId = this._id;
 
         let data = {};
         data.journalDate = moment().toDate();
@@ -265,7 +264,7 @@ indexTpl.events({
 
         data.transaction = transaction;
 
-        Meteor.call('otherSystem_journalUpdate', data, journalId);
+        Meteor.call('otherSystem_journalUpdate', data);
     },
     'click .otherSystem_journalRemove': function (e,t) {
         let self=this;

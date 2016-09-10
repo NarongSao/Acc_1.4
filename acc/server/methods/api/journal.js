@@ -24,9 +24,39 @@ Meteor.methods({
         var year = moment(data.journalDate, "DD/MM/YYYY").format("YYYY");
         data.voucherId = data.branchId + "-" + year + s.pad(data.voucherId, 6, "0");
 
+        let result=[];
+        data.transaction.reduce(function (key, val) {
+            if (!key[val.account]) {
+                key[val.account] = {
+                    account: val.account,
+                    dr: val.dr,
+                    cr: val.cr,
+                    drcr: val.drcr
+                };
+                result.push(key[val.account]);
+            } else {
+
+                key[val.account].dr += val.dr;
+                key[val.account].cr += val.cr;
+                key[val.account].drcr += val.drcr;
+
+                if(key[val.account].dr> key[val.account].cr){
+                    var dr= key[val.account].dr- key[val.account].cr;
+                    var cr=0;
+                }else{
+                    var dr=0;
+                    var cr= key[val.account].cr- key[val.account].dr;
+                }
+                key[val.account].dr = dr;
+                key[val.account].cr = cr;
+
+            }
+            return key;
+        }, {});
+
         return Journal.insert(data);
     },
-    api_journalUpdate: function (data, journalId) {
+    api_journalUpdate: function (data) {
         check(data, Object);
         _.defaults(data, {
             journalDate: moment().format('DD/MM/YYYY'),
@@ -45,10 +75,40 @@ Meteor.methods({
         var year = moment(data.journalDate).format("YYYY");
         data.voucherId = data.branchId + "-" + year + s.pad(data.voucherId, 6, "0");
 
-        return Journal.update({_id: journalId,refId: data.refId, refFrom: data.refFrom}, {$set: data});
+        let result=[];
+        data.transaction.reduce(function (key, val) {
+            if (!key[val.account]) {
+                key[val.account] = {
+                    account: val.account,
+                    dr: val.dr,
+                    cr: val.cr,
+                    drcr: val.drcr
+                };
+                result.push(key[val.account]);
+            } else {
+
+                key[val.account].dr += val.dr;
+                key[val.account].cr += val.cr;
+                key[val.account].drcr += val.drcr;
+
+                if(key[val.account].dr> key[val.account].cr){
+                    var dr= key[val.account].dr- key[val.account].cr;
+                    var cr=0;
+                }else{
+                    var dr=0;
+                    var cr= key[val.account].cr- key[val.account].dr;
+                }
+                key[val.account].dr = dr;
+                key[val.account].cr = cr;
+
+            }
+            return key;
+        }, {});
+
+        return Journal.update({refId: data.refId, refFrom: data.refFrom}, {$set: data});
     },
 
-    api_journalRemove: function (journalId, refId, refFrom) {
-        return Journal.remove({_id: journalId, refId: refId, refFrom: refFrom});
+    api_journalRemove: function (refId, refFrom) {
+        return Journal.remove({ refId: refId, refFrom: refFrom});
     }
 });
