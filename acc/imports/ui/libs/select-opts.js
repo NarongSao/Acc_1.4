@@ -159,9 +159,40 @@ export const SelectOpts = {
                 })
             });
         return list;
-    },chartAccount: function () {
+    },
+    chartAccount: function () {
         var list = [{label: "(Select One)", value: ""}];
         ChartAccount.find({}, {sort: {code: 1}})
+            .forEach(function (obj) {
+                list.push({
+                    label:  Spacebars.SafeString(SpaceChar.space(obj.level * 6) +obj.code).string+ " | " + obj.name,
+                    value: Spacebars.SafeString(SpaceChar.space(obj.level * 6) +obj.code).string+" | "+obj.name
+                })
+            });
+        return list;
+    },chartAccountAsset: function () {
+        var list = [{label: "(Select One)", value: ""}];
+        ChartAccount.find({accountTypeId: {$in: ['10','11','12']}}, {sort: {code: 1}})
+            .forEach(function (obj) {
+                list.push({
+                    label:  Spacebars.SafeString(SpaceChar.space(obj.level * 6) +obj.code).string+ " | " + obj.name,
+                    value: Spacebars.SafeString(SpaceChar.space(obj.level * 6) +obj.code).string+" | "+obj.name
+                })
+            });
+        return list;
+    },chartAccountIncome: function () {
+        var list = [{label: "(Select One)", value: ""}];
+        ChartAccount.find({accountTypeId: {$in: ['40','41']}}, {sort: {code: 1}})
+            .forEach(function (obj) {
+                list.push({
+                    label:  Spacebars.SafeString(SpaceChar.space(obj.level * 6) +obj.code).string+ " | " + obj.name,
+                    value: Spacebars.SafeString(SpaceChar.space(obj.level * 6) +obj.code).string+" | "+obj.name
+                })
+            });
+        return list;
+    },chartAccountExpense: function () {
+        var list = [{label: "(Select One)", value: ""}];
+        ChartAccount.find({accountTypeId: {$in: ['50','51']}}, {sort: {code: 1}})
             .forEach(function (obj) {
                 list.push({
                     label:  Spacebars.SafeString(SpaceChar.space(obj.level * 6) +obj.code).string+ " | " + obj.name,
