@@ -51,6 +51,10 @@ export const ProfitLostReport = new SimpleSchema({
         return SelectOptsReport.exchange();
       }
     }
-
+  },
+  showNonActive: {
+    type: Boolean,
+    label: "Show Non Active",
+    defaultValue: false
   }
 });

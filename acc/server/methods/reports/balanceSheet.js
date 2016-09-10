@@ -262,7 +262,7 @@ Meteor.methods({
 
             //New Balance
             var balanceSheet = Meteor.call("getBalanceSheet", selector,
-                baseCurrency, exchangeDate, selectorGetLastBalance, lastDate);
+                baseCurrency, exchangeDate, selectorGetLastBalance, lastDate,self.showNonActive);
             balanceSheet.reduce(function (key, val) {
                 if (!key[val.account]) {
                     var amountUsd = 0,
@@ -1146,7 +1146,7 @@ Meteor.methods({
 
 
             var balanceSheet = Meteor.call("getBalanceSheet", selector,
-                baseCurrency, exchangeDate, selectorGetLastBalance, lastDate);
+                baseCurrency, exchangeDate, selectorGetLastBalance, lastDate,self.showNonActive);
 
             balanceSheet.reduce(function (key, val) {
                 if (!key[val.account]) {

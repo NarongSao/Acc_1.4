@@ -144,7 +144,7 @@ Meteor.methods({
             };
 
             var contentProfit = Meteor.call("getProfitLostYearToDate", selector,
-                baseCurrency, exchangeDate, selectorMiddle, selectorEndDate);
+                baseCurrency, exchangeDate, selectorMiddle, selectorEndDate,self.showNonActive);
 
 
             var subTotalExpense = 0;
@@ -508,7 +508,7 @@ Meteor.methods({
             /*var contentProfit = Meteor.call("getProfitLost", selector,
              baseCurrency, exchangeDate);*/
             var contentProfit = Meteor.call("getProfitLostYearToDate", selector,
-                baseCurrency, exchangeDate, selectorMiddle, selectorEndDate);
+                baseCurrency, exchangeDate, selectorMiddle, selectorEndDate,self.showNonActive);
 
 
             var subTotalExpense = 0;
@@ -635,6 +635,8 @@ Meteor.methods({
                 }
                 return key;
             }, {});
+
+            
 
             var resultIncomeFinal = [];
             resultIncome.sort(compare);

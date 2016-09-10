@@ -351,3 +351,20 @@ AccRoutes.route('/mapNBCIncomeKH', {
         parent: 'acc.home'
     }
 });
+
+// Payment /Receive Method
+import '../imports/ui/pages/paymentReceiveMethod/paymentReceiveMethod.js';
+AccRoutes.route('/paymentReceiveMethod', {
+    name: 'acc.paymentReceiveMethod',
+    title: __('acc.paymentReceiveMethod.title'),
+    action: function (params, queryParams) {
+        Layout.main('acc_paymentReceiveMethod');
+    },
+    breadcrumb: {
+        //params: ['id'],
+        //queryParams: ['show', 'color'],
+        title: __('acc.paymentReceiveMethod.title'),
+        icon: 'cart-plus',
+        parent: 'acc.home'
+    }
+});

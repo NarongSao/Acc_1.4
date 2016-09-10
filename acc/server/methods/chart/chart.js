@@ -92,7 +92,7 @@ Meteor.methods({
                     }
 
                     let result = doc.find(obj=> obj.closeChartAccountId === ob._id);
-                    console.log(result);
+
                     if (result != undefined) {
                         configDataset.data.push(result.value);
                     } else {
@@ -143,7 +143,7 @@ Meteor.methods({
         dataMain.data = data;
         return dataMain;
     },
-    chart_accountEveryMonthCombination: function (selector,accountTypeId) {
+    chart_accountEveryMonthCombination: function (selector, accountTypeId) {
         let dataMain = {};
         let data = [];
         let monthList = [];
@@ -184,6 +184,57 @@ Meteor.methods({
         dataMain.xData = monthList;
         dataMain.datasets = data;
         return dataMain;
+    },
+    chart_companySnapshot: function (selector) {
+
+        let thisSelector = {};
+        let valueAccountListIncome = [];
+        let accountListIncome = [];
+
+        let valueAccountListExpense = [];
+        let accountListExpense = [];
+
+        let data = {};
+        let dataIncome = [];
+        let dataExpense = [];
+
+
+
+        thisSelector.accountTypeId = {$in: ['40', '41', '50', '51']}
+        thisSelector.year= '2016';
+        thisSelector.month= '06';
+        thisSelector.currencyId= 'USD';
+
+        let amountList = CloseChartAccountPerMonth.find(thisSelector).fetch();
+
+
+        amountList.forEach(function (obj) {
+            if (['40', '41'].indexOf(obj.accountTypeId) != -1) {
+                valueAccountListIncome.push(-1*obj.value);
+                accountListIncome.push(obj.code +" | "+ obj.name);
+            }else if(['50', '51'].indexOf(obj.accountTypeId) != -1){
+                valueAccountListExpense.push(obj.value);
+                accountListExpense.push(obj.code +" | "+ obj.name);
+            }
+        });
+
+        dataIncome.push({
+            type: 'pie',
+            data: valueAccountListIncome,
+            name: accountListIncome
+        })
+
+        dataExpense.push({
+            type: 'pie',
+            data: valueAccountListExpense,
+            name: accountListExpense
+        })
+        data.dataIncome = dataIncome;
+        data.dataExpense = dataExpense;
+        data.accountListIncome = accountListIncome;
+        data.accountListExpense = accountListExpense;
+        return data;
+
     }
 });
 

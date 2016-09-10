@@ -41,21 +41,18 @@ var stateSelectorChart = new ReactiveObj({
 })
 
 
-
 var Highcharts = require('highcharts/highstock');
-
 
 
 indexTpl.onRendered(function () {
     stateSelectorChart.set('currency', 'USD');
 
 
-
     for (i = new Date().getFullYear(); i > 1900; i--) {
         $('#yearpicker').append($('<option />').val(i).html(i));
     }
-    stateSelectorChart.set('yearSelect',$("#yearpicker").val());
-    stateSelectorChart.set('accountType',$("#accountType").val());
+    stateSelectorChart.set('yearSelect', $("#yearpicker").val());
+    stateSelectorChart.set('accountType', $("#accountType").val());
 
     getDataForChart();
 });
@@ -84,23 +81,23 @@ if (Meteor.isClient) {
     indexTpl.helpers({
 
         accountTypeList: function () {
-            let accountTypeList =[];
+            let accountTypeList = [];
             AccountType.find().fetch().forEach(function (obj) {
-                accountTypeList.push({value: obj._id,label: obj.name});
+                accountTypeList.push({value: obj._id, label: obj.name});
             })
             return accountTypeList;
         },
         createChartProfitLostComparation: function () {
             // Gather data:
-            debugger;
 
-            var obj=Session.get("obj");
+            var obj = Session.get("obj");
             $('#chart').empty();
 
             // Use Meteor.defer() to craete chart after DOM is ready:
 
-                Meteor.defer(function () {
-                    // Create standard Highcharts chart with options:
+            Meteor.defer(function () {
+                // Create standard Highcharts chart with options:
+                if (obj) {
                     $.each(obj.datasets, function (i, dataset) {
 
                         // Add X values
@@ -185,11 +182,11 @@ if (Meteor.isClient) {
 
 
                     });
-
+                }
             })
-    }
-})
-;
+        }
+    })
+    ;
 }
 
 
@@ -298,15 +295,15 @@ if (Meteor.isClient) {
  */
 
 
-var getDataForChart=function () {
+var getDataForChart = function () {
     let selector = {};
     selector.year = stateSelectorChart.get('yearSelect');
     selector.currencyId = stateSelectorChart.get('currency');
-    let accountTypeId= stateSelectorChart.get('accountType');
+    let accountTypeId = stateSelectorChart.get('accountType');
 
-    Meteor.call("chart_accountEveryMonthCombination", selector,accountTypeId, function (err, obj) {
-        if(obj!= undefined){
-            Session.set("obj",obj);
+    Meteor.call("chart_accountEveryMonthCombination", selector, accountTypeId, function (err, obj) {
+        if (obj != undefined) {
+            Session.set("obj", obj);
         }
     })
 }

@@ -1,20 +1,10 @@
-<template name="acc_accountComparation">
+<template name="acc_companySnapshot">
     <div class="box-body">
         <div class="row" col-md-12>
             <div class="box-body">
                 <div class="col-sm-3">
                     <select name="yearpicker" id="yearpicker" class="form-control input-sm"
                             style="width: 250px"></select>
-                </div>
-                <div class="col-sm-3">
-                    <select id="accountType" class="form-control input-sm accountType" name="accountType"
-                            style="width: 100%;"
-                            placeholder="Account Type">
-                        {{#each accountTypeList}}
-                            <option value="{{value}}">{{label}}</option>
-                        {{/each}}
-                    </select>
-
                 </div>
                 <div class="col-sm-6">
                     <div class="switch-toggle switch-3 switch-candy" id="currency-toggle">
@@ -34,12 +24,15 @@
     </div>
     <br><br>
     <div class="box-body">
-        <!--<div id="bar-chart-container">
-            <canvas id="myChart" width="900" height="400"></canvas>
-        </div>-->
         <div class="animated fadeIn">
-            <div id="chart"
-                 style="min-width: 310px; max-width: 800px;  min-height: 500px;max-height: 52000px; margin: 0 auto">{{createChartProfitLostComparation}}</div>
+            <div class="row">
+                <div id="chartIncome" class="col-md-6 pull-left"
+                     style="min-width: 510px; max-width: 900px;  min-height: 510px;max-height: 900px; margin: 0 auto">{{createChartIncome}}
+                </div>
+                <div id="chartExpense" class="col-md-6 pull-right"
+                     style="min-width: 510px; max-width: 900px;  min-height: 510px;max-height: 900px; margin: 0 auto">{{createChartExpense}}
+                </div>
+            </div>
         </div>
     </div>
 </template>

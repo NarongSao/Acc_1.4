@@ -29,6 +29,10 @@ var reportTpl = Template.acc_ProfitLostReport,
     generateTpl = Template.acc_ProfitLostReportGen,
     generateTplForAll = Template.acc_ProfitLostForAllReportGen;
 
+reportTpl.onRendered(function () {
+    switcherFun();
+})
+
 reportTpl.helpers({
     schema() {
         return ProfitLostReport;
@@ -160,6 +164,15 @@ generateTplForAll.helpers({
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
+
+var   switcherFun = function () {
+    var elem = document.querySelector('.js-switch');
+    var init = new Switchery(elem, {
+        color: '#7c8bc7',
+        jackColor: '#9decff',
+        size: 'small'
+    });
+};
 
 
 

@@ -98,6 +98,33 @@
             </ul>
         </li>
     {{/if}}
+    <!--Chart-->
+    {{#if isInRole 'setting' 'Acc'}}
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-bar-chart"></i>
+                <span>Chart</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+                <li class="{{isActiveRoute name='acc.chartNetIncome'}}">
+                    <a href="{{pathFor 'acc.chartNetIncome'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.chartNetIncome"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.accountComparation'}}">
+                    <a href="{{pathFor 'acc.accountComparation'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.accountComparation"}}</span>
+                    </a>
+                </li>
+                <li class="{{isActiveRoute name='acc.companySnapshot'}}">
+                    <a href="{{pathFor 'acc.companySnapshot'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.companySnapshot"}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    {{/if}}
     <!--Settings-->
     {{#if isInRole 'setting' 'Acc'}}
         <li class="treeview">
@@ -154,6 +181,11 @@
                         <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.configDep"}}</span>
                     </a>
                 </li>
+                <li class="{{isActiveRoute name='acc.paymentReceiveMethod'}}">
+                    <a href="{{pathFor 'acc.paymentReceiveMethod'}}">
+                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.paymentReceiveMethod"}}</span>
+                    </a>
+                </li>
 
 
             </ul>
@@ -206,26 +238,5 @@
         </li>
     {{/if}}
 
-    <!--Chart-->
-    {{#if isInRole 'setting' 'Acc'}}
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-bar-chart"></i>
-                <span>Chart</span>
-                <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu" style="display: none;">
-                <li class="{{isActiveRoute name='acc.chartNetIncome'}}">
-                    <a href="{{pathFor 'acc.chartNetIncome'}}">
-                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.chartNetIncome"}}</span>
-                    </a>
-                </li>
-                <li class="{{isActiveRoute name='acc.accountComparation'}}">
-                    <a href="{{pathFor 'acc.accountComparation'}}">
-                        <i class="fa fa-angle-right"></i> <span>{{_ "acc.sidebarMenu.accountComparation"}}</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    {{/if}}
+
 </template>

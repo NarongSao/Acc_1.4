@@ -54,6 +54,11 @@ export const BalanceSheetSchema=new SimpleSchema({
             }
         }
 
+    },
+    showNonActive: {
+        type: Boolean,
+        label: "Show Non Active",
+        defaultValue: false
     }
 
 })

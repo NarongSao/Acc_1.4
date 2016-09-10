@@ -1,0 +1,50 @@
+<!--Journal Temporary-->
+<template name="acc_journalDetailPaymentReceive">
+    {{#autoForm schema=schema id="acc_journalDetailPaymentReceive"}}
+        <div class="col-sm-4" style="padding-right:1px;padding-left: 0px;">
+            {{> afQuickField name='paymentReceiveMethod' class="input-sm"}}
+        </div>
+        <div class="row" style="padding-left: 1%;">
+            <div class="col-sm-11" style="padding-right:1px;padding-left:0px;">
+                <div class="col-sm-7" style="padding-right:1px;padding-left:0px;">
+                    {{> afQuickField name='account' id='account' class="input-sm" style="width: 100%"}}
+                </div>
+                <div class="col-sm-5" style="padding-right:1px;padding-left:0px;">
+
+                    {{> afQuickField name='amount' class="input-sm" value=tmpAmount}}
+
+                </div>
+            </div>
+
+            <div class="col-sm-1" style="padding-right:0px;padding-left:0px;margin-top: 5px;">
+                <br>
+                <button type="button" class="btn btn-primary addItem input-sm" {{cssClassForAddMore}}>+</button>
+            </div>
+        </div>
+        <hr>
+        {{#each journals}}
+            <div class="row listJournal" style="padding-left: 1%;">
+                <div class="col-sm-11" style="padding-right:1px;padding-left:0px;">
+                    <div class="col-sm-7" style="padding-right:1px;padding-left:0px;">
+                        <div style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{account}} style="width: 100%" class="form-control input-sm"
+                            readonly=true>
+                        </div>
+                    </div>
+                    <div class="col-sm-5" style="padding-right:1px;padding-left:0px;">
+                        <div style="padding-right:1px;padding-left:0px;">
+                            <input type="text" value={{formatMoney amount}} style="width: 100%" class="form-control
+                            input-sm" readonly=true>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1" style="padding-right:1px;padding-left:0px;">
+                    <ul class="list-inline input-sm" style="padding-right:0px; padding-left:0px;">
+                        <li><a href="#" class="js-destroy-item input-sm" style="padding-right:0px; padding-left:0px;"><i
+                                class="fa fa-remove text-red"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        {{/each}}
+    {{/autoForm}}
+</template>

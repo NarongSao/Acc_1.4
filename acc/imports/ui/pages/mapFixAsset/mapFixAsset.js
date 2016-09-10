@@ -68,7 +68,7 @@ updateTpl.helpers({
 indexTpl.events({
 
     'click .insert': function (e, t) {
-        alertify.mapFixAsset(fa("pencil", "Map Closing"), renderTemplate(insertTpl));
+        alertify.mapFixAsset(fa("plus", "Map Closing"), renderTemplate(insertTpl));
     }, 'click .update': function (e, t) {
         var self = this;
         alertify.mapFixAsset(fa("pencil", "Map Closing"), renderTemplate(updateTpl, self));

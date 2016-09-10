@@ -62,3 +62,19 @@ AccRoutes.route('/chartAccountComparation', {
         parent: 'acc.home'
     }
 });
+
+// Account Comparation
+import '../imports/ui/pages/chart/companySnapshot/companySnapshot';
+AccRoutes.route('/chartCompanySnapshot', {
+    name: 'acc.companySnapshot',
+    title: __('acc.companySnapshot.title'),
+    action: function(params, queryParams) {
+        Layout.main('acc_companySnapshot');
+    },
+    breadcrumb: {
+        //params: ['id'],
+        //queryParams: ['show', 'color'],
+        title: 'Company Snapshot',
+        parent: 'acc.home'
+    }
+});

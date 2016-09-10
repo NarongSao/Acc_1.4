@@ -36,6 +36,8 @@ import {JournalTabular} from '../../../../common/tabulars/journal';
 // Page
 import './journal.html';
 import './journalDetail.html';
+import './journalDetailPaymentReceive.html';
+import './journalDetailPaymentReceive.js';
 import './journalDetail.js';
 import './fixAsset.js';
 import './fixAsset.html';
@@ -45,6 +47,8 @@ import '../../libs/format';
 // Declare template
 var indexTpl = Template.acc_journal;
 var insertTpl = Template.acc_journalInsert;
+var insertPaymentTpl = Template.acc_journalInsertPayment;
+var insertReceiveTpl = Template.acc_journalInsertReceive;
 var updateTpl = Template.acc_journalUpdate;
 var showTpl = Template.acc_journalShow;
 
@@ -53,6 +57,7 @@ var showTpl = Template.acc_journalShow;
 
 var fixAssetDepCollection = new Mongo.Collection(null);
 var journalDetailCollection = new Mongo.Collection(null);
+var journalDetailPaymentReceiveCollection = new Mongo.Collection(null);
 stateFixAsset = new ReactiveObj({
     isFixAsset: false
 })
@@ -273,10 +278,20 @@ indexTpl.events({
 
 
 
+    'click .insertPayment': function (e, t) {
+        stateFixAsset.set('isFixAsset', false);
+        journalDetailPaymentReceiveCollection.remove({});
+        alertify.journal(fa("plus", "Journal"), renderTemplate(insertPaymentTpl)).maximize();
+    },
+    'click .insertReceive': function (e, t) {
+        stateFixAsset.set('isFixAsset', false);
+        journalDetailPaymentReceiveCollection.remove({});
+        alertify.journal(fa("plus", "Journal"), renderTemplate(insertReceiveTpl)).maximize();
+    },
     'click .insert': function (e, t) {
         stateFixAsset.set('isFixAsset', false);
         journalDetailCollection.remove({});
-        alertify.journal(fa("plus", "Journal"), renderTemplate(Template.acc_journalInsert)).maximize();
+        alertify.journal(fa("plus", "Journal"), renderTemplate(insertTpl)).maximize();
     },
     'dblclick tbody > tr': function (event) {
         stateFixAsset.set('isFixAsset', false);
@@ -680,3 +695,148 @@ var disableDate = function () {
             size: 'small'
         });
     };
+
+
+
+
+
+
+
+
+
+// Receive/Payment
+
+
+insertPaymentTpl.helpers({
+    collection(){
+        return Journal;
+    },
+    voucherId: function () {
+        return Session.get('lastVoucherId');
+    },
+    isFixAsset: function () {
+        return stateFixAsset.get("isFixAsset");
+    },
+    fixAssetDepCollection: function (e, t) {
+        return fixAssetDepCollection;
+    },
+    journalDetailPaymentReceiveCollection: function (e, t) {
+        return journalDetailPaymentReceiveCollection;
+    }
+});
+
+insertReceiveTpl.helpers({
+    collection(){
+        return Journal;
+    },
+    voucherId: function () {
+        return Session.get('lastVoucherId');
+    },
+    isFixAsset: function () {
+        return stateFixAsset.get("isFixAsset");
+    },
+    fixAssetDepCollection: function (e, t) {
+        return fixAssetDepCollection;
+    },
+    journalDetailPaymentReceiveCollection: function (e, t) {
+        return journalDetailPaymentReceiveCollection;
+    }
+});
+
+
+insertPaymentTpl.onDestroyed(function () {
+
+    Session.set('lastVoucherId', undefined);
+
+    Session.set('journals', undefined);
+    Session.set('currencyId', undefined);
+    Session.set('dobSelect', undefined);
+
+
+    stateFixAsset.set('isFixAsset', false);
+})
+insertReceiveTpl.onDestroyed(function () {
+
+    Session.set('lastVoucherId', undefined);
+
+    Session.set('journals', undefined);
+    Session.set('currencyId', undefined);
+    Session.set('dobSelect', undefined);
+
+
+    stateFixAsset.set('isFixAsset', false);
+})
+
+
+insertPaymentTpl.onRendered(function () {
+    disableDate();
+    switcherFun();
+
+    Meteor.setTimeout(function () {
+        Session.set('currencyId', 'USD');
+        Session.set('dobSelect', moment().toDate());
+    }, 100);
+});
+insertReceiveTpl.onRendered(function () {
+    disableDate();
+    switcherFun();
+
+    Meteor.setTimeout(function () {
+        Session.set('currencyId', 'USD');
+        Session.set('dobSelect', moment().toDate());
+    }, 100);
+});
+
+insertPaymentTpl.events({
+    'keypress #voucherId': function (evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ($(evt.currentTarget).val().indexOf('.') != -1) {
+            if (charCode == 46) {
+                return false;
+            }
+        }
+        return !(charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+    },
+    'change #currencyId': function (e, t) {
+        var currencyId = $(e.currentTarget).val();
+        Session.set('currencyId', currencyId);
+    },
+    'blur #journalDate': function (e, t) {
+        var curDate = $(e.currentTarget).val();
+        Session.set('dobSelect', curDate);
+    },
+    'change .js-switch': function (e, t) {
+        var elem = document.querySelector('.js-switch');
+        stateFixAsset.set("isFixAsset", elem.checked);
+    },
+    'click .save-new': function (e, t) {
+        Session.set('saveNew', true);
+    }
+});
+
+insertReceiveTpl.events({
+    'keypress #voucherId': function (evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ($(evt.currentTarget).val().indexOf('.') != -1) {
+            if (charCode == 46) {
+                return false;
+            }
+        }
+        return !(charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+    },
+    'change #currencyId': function (e, t) {
+        var currencyId = $(e.currentTarget).val();
+        Session.set('currencyId', currencyId);
+    },
+    'blur #journalDate': function (e, t) {
+        var curDate = $(e.currentTarget).val();
+        Session.set('dobSelect', curDate);
+    },
+    'change .js-switch': function (e, t) {
+        var elem = document.querySelector('.js-switch');
+        stateFixAsset.set("isFixAsset", elem.checked);
+    },
+    'click .save-new': function (e, t) {
+        Session.set('saveNew', true);
+    }
+});

@@ -31,6 +31,7 @@ Meteor.methods({
       data.header = params;
       /****** Content *****/
       var self = params;
+
       var selector = {};
       var exchangeDate = self.exchangeDate;
 
@@ -96,7 +97,7 @@ Meteor.methods({
       var i = 1;
 
       var content = Meteor.call("getTrialBalance", selector, baseCurrency,
-          exchangeDate, selectorGetLastBalance, lastDate);
+          exchangeDate, selectorGetLastBalance, lastDate,self.showNonActive);
       content.reduce(function (key, val) {
         if (!key[val.account]) {
           key[val.account] = {

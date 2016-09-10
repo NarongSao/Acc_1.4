@@ -28,7 +28,9 @@ var reportTpl = Template.acc_balanceSheetReport,
     generateTpl = Template.acc_balanceSheetReportGen,
     generateTplForAll = Template.acc_balanceSheetForAllReportGen;
 
-
+reportTpl.onRendered(function () {
+    switcherFun();
+})
 
 reportTpl.helpers({
     schema() {
@@ -105,6 +107,15 @@ generateTpl.helpers({
     }
 });
 
+
+var switcherFun = function () {
+    var elem = document.querySelector('.js-switch');
+    var init = new Switchery(elem, {
+        color: '#7c8bc7',
+        jackColor: '#9decff',
+        size: 'small'
+    });
+};
 
 
 

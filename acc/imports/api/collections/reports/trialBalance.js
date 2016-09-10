@@ -54,5 +54,10 @@ export const TrialBalanceReport = new SimpleSchema({
             }
         }
 
+    },
+    showNonActive: {
+        type: Boolean,
+        label: "Show Non Active",
+        defaultValue: false
     }
 })

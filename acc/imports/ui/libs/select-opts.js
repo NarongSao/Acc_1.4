@@ -10,6 +10,7 @@ import {ChartAccountNBC} from '../../api/collections/chartAccountNBC.js';
 import {ChartAccountNBCKH} from '../../api/collections/chartAccountNBCKH.js';
 import {Currency} from '../../api/collections/currency.js';
 import {ExchangeNBC} from '../../api/collections/exchangeNBC';
+import {PaymentReceiveMethod} from '../../api/collections/paymentReceiveMethod';
 
 import {Exchange} from '../../../../core/imports/api/collections/exchange.js';
 
@@ -195,7 +196,17 @@ export const SelectOpts = {
                 list.push({label: obj._id, value: obj._id});
             });
         return list;
-    }, branchForUser: function (selectOne, userId) {
+    },
+    paymentReceiveMethod: function () {
+        Meteor.subscribe('acc.paymentReceiveMethod');
+        let list=[];
+        list.push({label: "(Select One)", value: ""});
+        PaymentReceiveMethod.find().forEach(function (obj) {
+            list.push({label: obj.chartAccountCompare, value: Spacebars.SafeString(SpaceChar.space(obj.accountDoc.level * 6) +obj.accountDoc.code).string+" | "+obj.accountDoc.name})
+        })
+        return list;
+    }
+    , branchForUser: function (selectOne, userId) {
         Meteor.subscribe('core.branch');
 
         var list = [];

@@ -368,6 +368,44 @@ Journal.journalDetal = new SimpleSchema({
         }
     }
 });
+//Sub Payment /Receive
+Journal.journalDetalPaymentReceive = new SimpleSchema({
+    account: {
+        type: String,
+        max: 200,
+        optional: true,
+        label: "Chart Of Account",
+        autoform: {
+            type: "select2",
+            placeholder: "Chart Of Account",
+            options: function () {
+                return SelectOpts.chartAccount();
+            }
+        }
+    },
+    amount: {
+        type: Number,
+        decimal: true,
+        label: "Amount",
+        autoform: {
+            type: 'inputmask',
+            placeholder: "Debit",
+            inputmaskOptions: function () {
+                return inputmaskOptions.decimal();
+            }
+        }
+    },
+    paymentReceiveMethod: {
+        type: String,
+        label: "Payment/Receive Method",
+        autoform: {
+            type: "select2",
+            options: function () {
+                return SelectOpts.paymentReceiveMethod();
+            }
+        }
+    }
+});
 
 //Sub
 Journal.fixAssetSchema = new SimpleSchema({

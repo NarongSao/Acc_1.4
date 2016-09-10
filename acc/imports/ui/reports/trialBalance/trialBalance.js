@@ -28,12 +28,16 @@ import './trialBalance.html';
 var reportTpl = Template.acc_trialBalanceReport,
     generateTpl = Template.acc_trialBalanceReportGen;
 
+
+reportTpl.onRendered(function () {
+    switcherFun();
+})
+
 reportTpl.helpers({
     schema() {
         return TrialBalanceReport;
     }
 })
-
 
 
 generateTpl.helpers({
@@ -52,7 +56,6 @@ generateTpl.helpers({
         //FlowRouter.watchPathChange();
         var q = FlowRouter.current().queryParams;
 
-
         Fetcher.setDefault('data',false);
         Fetcher.retrieve('data','acc_trialBalanceReport',q);
 
@@ -67,6 +70,15 @@ generateTpl.helpers({
         return call.result();*/
     }
 });
+
+var   switcherFun = function () {
+    var elem = document.querySelector('.js-switch');
+    var init = new Switchery(elem, {
+        color: '#7c8bc7',
+        jackColor: '#9decff',
+        size: 'small'
+    });
+};
 
 
 
